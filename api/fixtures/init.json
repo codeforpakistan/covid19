@@ -1,0 +1,368 @@
+[{
+  "model": "api.gender",
+  "pk": 1,
+  "fields": {
+    "name": "Male"
+  }
+},
+{
+  "model": "api.gender",
+  "pk": 2,
+  "fields": {
+    "name": "Female"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 1,
+  "fields": {
+    "name": "Balochistan"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 2,
+  "fields": {
+    "name": "Khyber Pakhtunkhwa"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 3,
+  "fields": {
+    "name": "Sindh"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 4,
+  "fields": {
+    "name": "Punjab"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 5,
+  "fields": {
+    "name": "AJK"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 6,
+  "fields": {
+    "name": "Occupied Kashmir"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 7,
+  "fields": {
+    "name": "Gilgit Baltistan"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 8,
+  "fields": {
+    "name": "KP Merged Districts"
+  }
+},
+{
+  "model": "api.province",
+  "pk": 9,
+  "fields": {
+    "name": "Islamabad"
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 1,
+  "fields": {
+    "name": "Pakistan Institute of Medical Sciences(PIMS)",
+    "province": 9
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 2,
+  "fields": {
+    "name": "Benazir Bhutto Hospital, Rawalpindi",
+    "province": 4
+
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 3,
+  "fields": {
+    "name": "Services Hospital Lahore",
+     "province": 4
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 4,
+  "fields": {
+    "name": "Nishtar Hospital Multan",
+     "province": 4
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 5,
+  "fields": {
+    "name": "Allama Iqbal Memorial Hospital Sialkot",
+     "province": 4
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 6,
+  "fields": {
+    "name": "Allied Teaching Hospital, Faisalabad",
+    "province": 4
+
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 7,
+  "fields": {
+    "name": "Sheikh Zayed Hospital, Rahim Yar Khan",
+    "province": 4
+
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 8,
+  "fields": {
+    "name": "Civil Hospital, Karachi",
+    "province": 3
+
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 9,
+  "fields": {
+    "name": "Jinnah Postgraduate Medical Centre (JPMC), Karachi",
+    "province": 3
+
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 10,
+  "fields": {
+    "name": "Dow Hospital, Ojha Campus, Karachi",
+    "province": 3
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 11,
+  "fields": {
+    "name": "LUMS Hospital, Hyderabad",
+    "province": 3
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 12,
+  "fields": {
+    "name": "Fatima Jinnah General and Chest Hospital, Quetta",
+    "province": 1
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 13,
+  "fields": {
+    "name": "GDA Hospital, Gwadar",
+    "province": 1
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 14,
+  "fields": {
+    "name": "Police Services Hospital, Peshawar",
+    "province": 2
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 15,
+  "fields": {
+    "name": "Khyber Teaching Hospital, Peshawar",
+    "province": 2
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 16,
+  "fields": {
+    "name": "Hayatabad Medical Complex, Peshawar",
+    "province": 2
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 17,
+  "fields": {
+    "name": "Lady Reading Hospital, Peshawar",
+    "province": 2
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 18,
+  "fields": {
+    "name": "Bacha Khan Medical Complex, Swabi",
+    "province": 2
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 19,
+  "fields": {
+    "name": "Saidu Shareef Hospital, Swat",
+    "province": 2
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 20,
+  "fields": {
+    "name": "Ayub Teaching Hospital, Abbottabad",
+    "province": 2
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 21,
+  "fields": {
+    "name": "Civil Hospital, Hunza",
+    "province": 7
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 22,
+  "fields": {
+    "name": "DHQ Hospital, Gilgit",
+    "province": 7
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 23,
+  "fields": {
+    "name": "DHQ Hospital, Chilas",
+    "province": 7
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 24,
+  "fields": {
+    "name": "DHQ Hospital, Skardu",
+    "province": 7
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 25,
+  "fields": {
+    "name": "Abbas Institute of Medical Sciences, Muzaffarabad",
+    "province": 5
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 26,
+  "fields": {
+    "name": "DHQ Hospital, AJK",
+    "province": 5
+  }
+},
+{
+  "model": "api.hospital",
+  "pk": 27,
+  "fields": {
+    "name": "Shiekh Khalifa Bin Ziad (SKBZ) Hospital, Rawalakot",
+    "province": 5
+  }
+},
+{
+  "model": "api.source",
+  "pk": 1,
+  "fields": {
+    "name": "Human Transmission"
+  }
+},
+{
+  "model": "api.source",
+  "pk": 2,
+  "fields": {
+    "name": "International Travel"
+  }
+},
+{
+  "model": "api.status",
+  "pk": 1,
+  "fields": {
+    "name": "Recovered, Discharged"
+  }
+},
+{
+  "model": "api.status",
+  "pk": 2,
+  "fields": {
+    "name": "Admitted, Serious"
+  }
+},
+{
+  "model": "api.status",
+  "pk": 3,
+  "fields": {
+    "name": "Admitted, Stable"
+  }
+},
+{
+  "model": "api.city",
+  "pk": 1,
+  "fields": {
+    "name": "Islamabad"
+  }
+},
+{
+  "model": "api.city",
+  "pk": 2,
+  "fields": {
+    "name": "Lahore"
+  }
+},
+{
+  "model": "api.city",
+  "pk": 3,
+  "fields": {
+    "name": "Karachi"
+  }
+},
+{
+  "model": "api.city",
+  "pk": 4,
+  "fields": {
+    "name": "Peshawar"
+  }
+},
+{
+  "model": "api.city",
+  "pk": 5,
+  "fields": {
+    "name": "Quetta"
+  }
+}]
