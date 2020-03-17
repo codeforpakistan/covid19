@@ -96,3 +96,6 @@ temp/
 
 .ipynb*
 *.csv
+
+credentials.json
+token.pickle
