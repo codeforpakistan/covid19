@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Axios from 'axios'
 
-Axios.defaults.baseURL = 'http://192.168.130.241:8000/api/'
+Axios.defaults.baseURL = 'https://corona.nhsrc.gov.pk:8000/api/'
 // Axios.interceptors.request.use(
 //   (config) => {
 //     let token = store.state.token

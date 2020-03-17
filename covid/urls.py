@@ -32,6 +32,7 @@ router.register(r'genders', views.GenderViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    path('', views.index),
     path('api/cases/', views.cases),
     path('api/statuses/', views.statuses),
     path('api/map/', views.map),

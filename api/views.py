@@ -6,6 +6,11 @@ from api import models, serializers
 from django.db import connection
 import pandas
 
+@api_view(('GET',))
+def index(request):
+    return Response(data='COVID19 Dashboard API')
+
+
 query = "select ap.age as 'Age', ac.name as 'City', apr.name as 'Province', ag.name as 'Gender', ast.name as 'Status', aso.name as 'Source'  from api_patient ap\
         join api_city ac on ac.id = ap.city_id\
         join api_province apr on apr.id = ap.province_id\
