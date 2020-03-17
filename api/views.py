@@ -80,6 +80,45 @@ def province(request):
     return Response(hist)
 
 
+@api_view()
+@permission_classes([IsAuthenticated])
+def query(request):
+    df = pandas.read_csv('SHEETS.csv', header=1)
+    df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
+
+    if (request.GET):
+        if 'date' in request.GET:
+            df = df[df['Date'] == request.GET.get('date')]
+        if 'province' in request.GET:
+            df = df[df['Province'] == request.GET.get('province')]
+        if 'groupby' in request.GET:
+            df = df.groupby([request.GET.get('groupby')])
+
+        if 'measure' in request.GET:
+            if 'aggregate' in request.GET:
+                aggregate = request.GET.get('aggregate')
+                if aggregate == 'Sum':
+                    df = df.sum()[request.GET.get('measure')]
+                elif aggregate == 'Mean':
+                    df = df.mean()[request.GET.get('measure')]
+                else:
+                    return Response('Invalid aggregate method', status=400)
+            else: 
+                return Response('No aggregate selected', status=400)
+        else:
+            return Response('No measure selected', status=400)
+
+        if 'groupby' in request.GET:
+            if request.GET.get('groupby') == 'Date':
+                return Response({x.strftime("%Y-%m-%d"):y for (x,y) in dict(df).items()})
+            else:
+                return Response(dict(df))
+        else:
+            return Response(df)
+
+    return Response('No inputs provided', status=400)
+    
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

@@ -40,6 +40,7 @@ urlpatterns = [
     path('api/source/', views.source),
     path('api/status/', views.status),
     path('api/province/', views.province),
+    path('api/query/', views.query),
     path('api/', include(router.urls)),
     path('api/auth/', include('rest_auth.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
