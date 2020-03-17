@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Axios from 'axios'
+import './filters'
 
 Axios.defaults.baseURL = process.env.VUE_APP_SERVER
 Axios.defaults.headers.common['Authorization'] = `Token ${process.env.VUE_APP_TOKEN}` 
