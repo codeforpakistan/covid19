@@ -49,13 +49,6 @@
 },
 {
   "model": "api.province",
-  "pk": 6,
-  "fields": {
-    "name": "Occupied Kashmir"
-  }
-},
-{
-  "model": "api.province",
   "pk": 7,
   "fields": {
     "name": "Gilgit Baltistan"

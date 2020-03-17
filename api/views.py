@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import Group
 from rest_framework import viewsets, permissions
@@ -20,37 +21,63 @@ query = "select ap.age as 'Age', ac.name as 'City', apr.name as 'Province', ag.n
         join api_hospital as ah on ah.id = ap.hospital_id"
 
 @api_view()
+@permission_classes([IsAuthenticated])
 def cases(request):
-    # df = pandas.DataFrame(list(models.Patient.objects.all().values()))
     df = pandas.read_sql(query, connection)
-    df.to_csv('abc.csv', index=False)
     return Response(df.to_json(orient='columns'))
 
 @api_view()
-def statuses(request):
-    # df = pandas.DataFrame(list(models.Patient.objects.all().values()))
+@permission_classes([IsAuthenticated])
+def province_status(request):
     df = pandas.read_sql(query, connection)
     df = pandas.crosstab(df['Province'], df['Status'])
     return Response(df.to_json(orient='columns'))
 
 @api_view()
+@permission_classes([IsAuthenticated])
 def map(request):
     df = pandas.read_sql(query, connection)
     c = df.groupby('Province').size()
     return Response(c)
 
 @api_view()
-def age(request):
-    # df = pandas.DataFrame(list(models.Patient.objects.all().values()))
+@permission_classes([IsAuthenticated])
+def age_gender(request):
     df = pandas.read_sql(query, connection)
     bins = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
     labels = ['0-10','10-20','20-30','30-40','40-50','50-60','60-70','70-80','80-90','90-100']
     df['binned'] = pandas.cut(df['Age'], bins=bins, labels=labels)
     df = pandas.crosstab(df.binned, df.Gender)
     return Response(df.to_json(orient='columns'))
-    # return Response(df)
 
 
+@api_view()
+@permission_classes([IsAuthenticated])
+def status(request):
+    df = pandas.read_sql(query, connection)
+    return Response(dict(pandas.value_counts(df['Status'])))
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def gender(request):
+    df = pandas.read_sql(query, connection)
+    return Response(dict(pandas.value_counts(df['Gender'])))
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def source(request):
+    df = pandas.read_sql(query, connection)
+    return Response(dict(pandas.value_counts(df['Source'])))
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def province(request):
+    df = pandas.read_sql(query, connection)
+    hist = dict(pandas.value_counts(df['Province'], normalize=True))
+    hist.update((x, int(y*100)) for x, y in hist.items())
+    return Response(hist)
 
 
 class UserViewSet(viewsets.ModelViewSet):
