@@ -12,35 +12,47 @@
 
     <!-- FIRST ROW -->
     <div class="row">
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
-          <h3 class="card-title text-primary low display-4 font-weight-normal">{{ admitted + discharged + expired }}</h3>
-          <p class="card-text">CONFIRMED</p>
+          <h3 class="card-title text-info low display-4 font-weight-bold">{{ getStats('Suspected_24') | numberFormat }}</h3>
+          <p class="card-text mb-0">SUSPECTED <small>(24 hrs)</small></p>
         </div>
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
-          <h3 class="card-title text-warning low display-4 font-weight-normal">{{ admitted }}</h3>
-          <p class="card-text">ADMITTED</p>
+          <h3 class="card-title text-primary low display-4 font-weight-bold">{{ getStats('Tested_24') | numberFormat }}</h3>
+          <p class="card-text">TESTED <small>(24 hrs)</small></p>
         </div>
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
-          <h3 class="card-title text-success low display-4 font-weight-normal">{{ discharged }}</h3>
-          <p class="card-text">DISCHARGED</p>
+          <h3 class="card-title text-danger low display-4 font-weight-bold">{{ getStats('Confirmed_24') | numberFormat }}</h3>
+          <p class="card-text">CONFIRMED <small>(total)</small></p>
         </div>
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
-          <h3 class="card-title text-danger low display-4 font-weight-normal">{{ expired }}</h3>
-          <p class="card-text">EXPIRED</p>
+          <h3 class="card-title text-warning low display-4 font-weight-bold">{{ getStats('Admitted_24') | numberFormat }}</h3>
+          <p class="card-text">ADMITTED <small>(total)</small></p>
+        </div>
+      </div>
+      <div class="col-6 col-md">
+        <div class="card card-body border-0 shadow-sm mb-4">
+          <h3 class="card-title text-success low display-4 font-weight-bold">{{ getStats('Discharged_24') | numberFormat }}</h3>
+          <p class="card-text">DISCHARGED <small>(total)</small></p>
+        </div>
+      </div>
+      <div class="col-6 col-md">
+        <div class="card card-body border-0 shadow-sm mb-4">
+          <h3 class="card-title text-danger low display-4 font-weight-bold">{{ getStats('Expired_24') | numberFormat }}</h3>
+          <p class="card-text">EXPIRED <small>(total)</small></p>
         </div>
       </div>
     </div>
     <!--END FIRST ROW-->
 
     <!-- SECOND ROW -->
-    <div class="row mb-4">
+    <!-- <div class="row mb-4">
       <div class="col-md-6">
         <svg version="1.1"
           id="svg82" inkscape:version="0.92.4 (5da689c313, 2019-01-14)" sodipodi:docname="PAK_AU_T1_v2.svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
@@ -131,7 +143,7 @@
           L667.4,152.2z"/>
         <path id="Siachin" fill="#b0bec5" stroke="#f8f9fa" d="M807.6,96.1l0.1,6.7l11,12.8l8.6,15.9l34.2-25.8l-22,2l-3.4-3.2l-7.4-0.3l-6.5-4l-4.1-0.2l-6.1-4
           L807.6,96.1z"/>
-          <!-- <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="610.3375" y1="708.6" x2="930.3375" y2="708.6">
+          <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="610.3375" y1="708.6" x2="930.3375" y2="708.6">
           <stop  offset="0" style="stop-color:#FFAF7B"/>
           <stop  offset="0.5" style="stop-color:#D76D77"/>
           <stop  offset="1" style="stop-color:#3A1C71"/>
@@ -139,20 +151,20 @@
         <rect x="610.3" y="700.6" class="st1" width="320" height="16"/>
         <text transform="matrix(1 0 0 1 607.2591 734.3337)" class="st2 st3">0</text>
         <text transform="matrix(1 0 0 1 764.1816 734.333)" class="st2 st3">50</text>
-        <text transform="matrix(1 0 0 1 921.1045 734.3334)" class="st2 st3">100</text> -->
+        <text transform="matrix(1 0 0 1 921.1045 734.3334)" class="st2 st3">100</text>
         </svg>
       </div>
       <div class="col-md-6">
         <div class="card card-body border-0 shadow-sm">
           <h6 class="card-title">Cases by Province and Status</h6>
-          <Plotly :data="provinces.data" :layout="provinces.layout" :options="provinces.options"></Plotly>
+          <vue-plotly :data="provinces.data" :layout="provinces.layout" :options="provinces.options" />
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- END SECOND ROW -->
 
     <!-- THIRD ROW -->
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-sm-6 col-md-3">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h6 class="card-title">Cases by Gender</h6>
@@ -171,38 +183,48 @@
           <Plotly :data="age.data" :layout="age.layout" :options="age.options"></Plotly>
         </div>
       </div>
+    </div> -->
+    <div class="row">
+      <div class="col">
+        <div class="card card-body border-0 shadow-sm mb-4">
+          <h6 class="card-title">Confirmed Cases by Date</h6>
+          <vue-plotly :data="timeline.data" :layout="timeline.layout" :options="timeline.options" />
+        </div>
+      </div>
     </div>
+    <div class="">Source: <a href="https://www.nih.org.pk/novel-coranavirus-2019-ncov/">National Institue of Health - Daily Situation Reports</a></div>
     <!-- END THIRD ROW -->
   </div>
 </template>
 
 <script>
-import { Plotly } from 'vue-plotly'
+import VuePlotly from '@statnett/vue-plotly'
 import Axios from 'axios'
 import moment from 'moment'
 export default {
   name: 'App',
-  components: { Plotly },
+  components: { VuePlotly },
   data () {
     return {
-      message: 'Hello Vue!', 
-      gradients: [
-        '#FFAF7B',
-        '#F39B7A',
-        '#EA8C79',
-        '#E48278',
-        '#E07C78',
-        '#D76D77',
-        '#A95575',
-        '#854274',
-        '#5B2D72',
-        '#4B2572',
-        '#3A1C71',
-      ],
       data: null,
-      statuses: null,
+      province_status: null,
       abc: {},
+      status: null,
+      province: null,
       ages: {},
+      timeline: {
+        data: [
+          
+        ],
+        layout: {
+          height: 300,
+          margin: { r: 0, b: 30, l: 30, t: 0 },
+        },
+        options: {
+          displayModeBar: false,
+          responsive: true
+        }
+      },
       provinces: {
         data: [
           {
@@ -253,7 +275,7 @@ export default {
       gender: {
         data: [
           {
-            values: [16, 15],
+            values: [],
             labels: ['Male', 'Female'],
             hoverinfo: 'label+percent+name',
             hole: .4,
@@ -284,7 +306,7 @@ export default {
       source: {
         data: [
           {
-            values: [16, 15],
+            values: [],
             labels: ['International Travel', 'Human Transmissions'],
             hoverinfo: 'label+percent+name',
             hole: .4,
@@ -345,141 +367,118 @@ export default {
     }
   },
   computed: {
-    admitted () {
-      if (this.data) {
-        var count = 0
-        this.data['Status'].reduce( function(acc, cur) {
-          if ((cur == 'Admitted, Stable') || (cur == 'Admitted, Serious'))
-            count++
-        })
-        return count
-      }
-      return 0
-    },
-    discharged () {
-      if (this.data) {
-        var count = 0
-        this.data['Status'].reduce( function(acc, cur) {
-          if (cur == 'Recovered, Discharged')
-            count++
-        })
-        return count
-      }
-      return 0
-    },
-    expired () {
-      if (this.data) {
-        var count = 0
-        this.data['Status'].reduce( function(acc, cur) {
-          if (cur == 'Expired')
-            count++
-        })
-        return count
-      }
-      return 0
-    },
     today() {
       return moment().format("Do MMMM YYYY")
     }
   },
   mounted () {
     Axios.all([
-      Axios.get('/cases/'),
-      Axios.get('/statuses/'),
-      Axios.get('/map/'),
-      Axios.get('/ages/')
-    ]).then( Axios.spread( function(cases, statuses, map, ages) {
-      this.data = JSON.parse(cases.data)
-      this.statuses = JSON.parse(statuses.data)
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Balochistan&aggregate=Sum'),
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Khyber Pakhtunkhwa&aggregate=Sum'),
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Punjab&aggregate=Sum'),
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Sindh&aggregate=Sum'),
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Islamabad&aggregate=Sum'),
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Gilgit-Baltistan&aggregate=Sum'),
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Azad Kashmir&aggregate=Sum'),
+      Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=KP Tribal Districts&aggregate=Sum'),
+      // Axios.get('/query?measure=Confirmed_Cum&groupby=Date'),
+      Axios.get('/query?measure=Suspected_Cum&groupby=Date&aggregate=Sum'),
+      Axios.get('/query?measure=Tested_Cum&&groupby=Date&aggregate=Sum'),
+      Axios.get('/query?measure=Confirmed_24&aggregate=Sum'),
+      Axios.get('/query?measure=Admitted_24&aggregate=Sum'),
+      Axios.get('/query?measure=Discharged_24&aggregate=Sum'),
+      Axios.get('/query?measure=Expired_24&aggregate=Sum'),
+    ]).then( Axios.spread( function(tlBA,tlKP,tlPB,tlSD,tlIS,tlGB,tlAK,tlTD,s24,t24,c24,a24,d24,e24) {
+      this.data = {}
 
-      for (let [key, value] of Object.entries(this.data)) {
-        this.data[key] = Object.values(this.data[key])
-        console.log(value)
-      }
+      this.timeline.data.push({ name: 'Balochistan', x: Object.keys(tlBA.data), y: Object.values(tlBA.data), type: 'scatter' })
+      this.timeline.data.push({ name: 'Khyber Pakhtunkhwa', x: Object.keys(tlKP.data), y: Object.values(tlKP.data), type: 'scatter' })
+      this.timeline.data.push({ name: 'Punjab', x: Object.keys(tlPB.data), y: Object.values(tlPB.data), type: 'scatter' })
+      this.timeline.data.push({ name: 'Sindh', x: Object.keys(tlSD.data), y: Object.values(tlSD.data), type: 'scatter' })
+      this.timeline.data.push({ name: 'Islamabad', x: Object.keys(tlIS.data), y: Object.values(tlIS.data), type: 'scatter' })
+      this.timeline.data.push({ name: 'Gilgit-Baltistan', x: Object.keys(tlGB.data), y: Object.values(tlGB.data), type: 'scatter' })
+      this.timeline.data.push({ name: 'Azad Kashmir', x: Object.keys(tlAK.data), y: Object.values(tlAK.data), type: 'scatter' })
+      this.timeline.data.push({ name: 'KP Tribal Districts', x: Object.keys(tlTD.data), y: Object.values(tlTD.data), type: 'scatter' })
+      // this.timeline.data.push({ name: 'Total', x: Object.keys(confirmed.data), y: Object.values(confirmed.data), type: 'scatter' })
 
-      var males = 0
-      this.data['Gender'].reduce( function(acc, cur) {
-        if (cur == 'Male')
-          males++
-      })
+      let today = moment().format('YYYY-MM-D')
+      if (!(today in s24.data) )
+        today = moment().subtract(1, 'days').format('YYYY-MM-D')
+      this.data['Suspected_24'] = s24.data[today]
+      this.data['Tested_24'] = t24.data[today]
+      this.data['Confirmed_24'] = c24.data
+      this.data['Admitted_24'] = a24.data
+      this.data['Discharged_24'] = d24.data
+      this.data['Expired_24'] = e24.data
 
-      var females = 0
-      this.data['Gender'].reduce( function(acc, cur) {
-        if (cur == 'Female')
-          females++
-      })
-
-      this.gender.data[0].values = [males, females]
-
-      var travel = 0
-      this.data['Source'].reduce( function(acc, cur) {
-        if (cur == 'International Travel')
-          travel++
-      })
-
-      var transmission = 0
-      this.data['Source'].reduce( function(acc, cur) {
-        if (cur == 'Human Transmission')
-          transmission++
-      })
-
-      this.source.data[0].values = [travel, transmission]
-
-      var index = 0;
-      for (let [key, value] of Object.entries(this.statuses)) {
-        this.provinces.data[index].x = []
-        this.provinces.data[index].y = []
-        for (let [x, y] of Object.entries(value)) {
-          console.log(key, value)
-          this.provinces.data[index].x.push(x)
-          this.provinces.data[index].y.push(y)
-          this.provinces.data[index].text = this.provinces.data[index].x.map(String)
-        }
-        index++
-      }
-
-      var counts = map.data
-      // counts = this.normalize(counts, 100)
-      this.provinces.data[0].x.forEach(function(value, index) {
-        this.abc[value] = counts[index]
-      }.bind(this));
-
-      this.ages = JSON.parse(ages.data)
-
-      this.age.data[0].x = Object.values(this.ages['Male'])
-      this.age.data[0].x.forEach(e => {
-        this.age.data[0].base.push(-e)
-      })
-      this.age.data[1].x = Object.values(this.ages['Female'])
-
-      this.age.data[0].y = Object.keys(this.ages['Male'])
-      this.age.data[1].y = Object.keys(this.ages['Female'])
-      // console.log(this.ages)
-      // for (let [key, value] of Object.entries(this.ages['Male'])) {
-      //   console.log(key, value)
+      // Convert objects into arrays
+      // for (let [key, value] of Object.entries(this.data)) {
+      //   this.data[key] = Object.values(this.data[key])
+      //   console.log(value)
       // }
+
+      // Process Status data for boxes
+      // this.status = status.data
+
+      // Process Gender data for pie chart
+      // this.gender.data[0].values = Object.values(gender.data)
+      // this.gender.data[0].labels = Object.keys(gender.data)
+
+      // // Process Source data; for pie chart
+      // this.source.data[0].values = Object.values(source.data)
+      // this.source.data[0].labels = Object.keys(source.data)
+
+      // // Process Provinces data for color map
+      // this.province = province.data
+
+      // // Process Province.Status data for bar chart
+      // var index = 0;
+      // this.province_status = JSON.parse(province_status.data)
+      // for (let [key, value] of Object.entries(this.province_status)) {
+      //   this.provinces.data[index].x = []
+      //   this.provinces.data[index].y = []
+      //   for (let [x, y] of Object.entries(value)) {
+      //     console.log(key, value)
+      //     this.provinces.data[index].x.push(x)
+      //     this.provinces.data[index].y.push(y)
+      //     this.provinces.data[index].text = this.provinces.data[index].x.map(String)
+      //   }
+      //   index++
+      // }
+
+      // // Process 
+
+      // this.age_gender = JSON.parse(age_gender.data)
+      // this.age.data[0].x = Object.values(this.ages['Male'])
+      // this.age.data[0].x.forEach(e => {
+      //   this.age.data[0].base.push(-e)
+      // })
+      // this.age.data[1].x = Object.values(this.ages['Female'])
+      // this.age.data[0].y = Object.keys(this.ages['Male'])
+      // this.age.data[1].y = Object.keys(this.ages['Female'])
 
     }.bind(this)))
     .catch (error => console.log(error) )
   },
   methods: {
+    getStats(indicator) {
+      if (this.data && indicator in this.data) return this.data[indicator]
+      return 0
+    },
     colorme(province) {
-      if (this.data) {
-        var total = this.data['Province'].length
-        var value = (this.abc[province] / total) * 100
-        this.abc[province] = Math.ceil(value / 10) * 10
-
-        if (this.abc[province] == 10) return '#FFAF7B'
-        else if (this.abc[province] == 20) return '#F39B7A'
-        else if (this.abc[province] == 30) return '#EA8C79'
-        else if (this.abc[province] == 40) return '#E48278'
-        else if (this.abc[province] == 50) return '#E07C78'
-        else if (this.abc[province] == 60) return '#D76D77'
-        else if (this.abc[province] == 70) return '#A95575'
-        else if (this.abc[province] == 80) return '#854274'
-        else if (this.abc[province] == 90) return '#5B2D72'
-        else if (this.abc[province] == 100) return '#4B2572'
-        else return '#3A1C71'
+      if (this.province) {
+        let weight = this.province[province]
+        if (weight < 10) return '#FFAF7B'
+        else if (weight > 10 && weight <= 20) return '#F39B7A'
+        else if (weight > 20 && weight <= 30) return '#EA8C79'
+        else if (weight > 30 && weight <= 40) return '#E48278'
+        else if (weight > 40 && weight <= 50) return '#E07C78'
+        else if (weight > 50 && weight <= 60) return '#D76D77'
+        else if (weight > 60 && weight <= 70) return '#A95575'
+        else if (weight > 70 && weight <= 80) return '#854274'
+        else if (weight > 80 && weight <= 90) return '#5B2D72'
+        else if (weight > 90) return '#4B2572'
+        else return '#b0bec5' // For No Data
       }
     }
   }
