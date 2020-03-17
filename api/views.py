@@ -59,7 +59,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = models.User.objects.all().order_by('-date_joined')
     serializer_class = serializers.UserSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -68,50 +68,50 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = serializers.GroupSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = models.Patient.objects.all()
     serializer_class = serializers.PatientSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 class HospitalViewSet(viewsets.ModelViewSet):
     queryset = models.Hospital.objects.all()
     serializer_class = serializers.HospitalSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ProvinceViewSet(viewsets.ModelViewSet):
     queryset = models.Province.objects.all()
     serializer_class = serializers.ProvinceSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class CityViewSet(viewsets.ModelViewSet):
     queryset = models.City.objects.all()
     serializer_class = serializers.CitySerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class StatusViewSet(viewsets.ModelViewSet):
     queryset = models.Status.objects.all()
     serializer_class = serializers.StatusSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class SourceViewSet(viewsets.ModelViewSet):
     queryset = models.Source.objects.all()
     serializer_class = serializers.SourceSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class GenderViewSet(viewsets.ModelViewSet):
     queryset = models.Gender.objects.all()
     serializer_class = serializers.GenderSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class LaboratoryViewSet(viewsets.ModelViewSet):
     queryset = models.Laboratory.objects.all()
     serializer_class = serializers.LaboratorySerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]

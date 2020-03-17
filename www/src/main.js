@@ -2,15 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import Axios from 'axios'
 
-Axios.defaults.baseURL = 'https://corona.nhsrc.gov.pk:8000/api/'
-// Axios.interceptors.request.use(
-//   (config) => {
-//     let token = store.state.token
-//     if (token) config.headers['Authorization'] = `Token ${token}`
-//     return config
-//   }, (error) => { return Promise.reject(error) }
-// )
-Axios.defaults.headers.common['Authorization'] = `Token 4f976f416bf1bbacff0d64d2f2f796e15f322d07` 
+Axios.defaults.baseURL = process.env.VUE_APP_SERVER
+Axios.defaults.headers.common['Authorization'] = `Token ${process.env.VUE_APP_TOKEN}` 
 Axios.defaults.xsrfCookieName = 'csrftoken'
 Axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
