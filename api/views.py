@@ -79,6 +79,14 @@ def province(request):
     hist.update((x, int(y*100)) for x, y in hist.items())
     return Response(hist)
 
+@api_view()
+@permission_classes([IsAuthenticated])
+def table(request):
+    df = pandas.read_csv('SHEETS.csv', header=1)
+    df = df.groupby('Province').sum()
+    df = df[['Suspected_24','Tested_24','Confirmed_24','Admitted_24','Discharged_24','Expired_24']]
+    return Response(df.to_json(orient='split'))
+
 
 @api_view()
 @permission_classes([IsAuthenticated])

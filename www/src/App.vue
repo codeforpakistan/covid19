@@ -192,6 +192,33 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="card card-body border-0 shadow-sm mb-4">
+          <h6 class="card-title">Overall Status by Province</h6>
+
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Province</th>
+                <th v-for="col in data.table.columns" :key="col" class="text-center">{{ col.replace('_24','') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, index) in data.table.data" :key="index">
+                <td>{{ data.table.index[index] }}</td>
+                <td v-for="(col, index) in data.table.columns" :key="index" class="text-center">
+                  <template v-if="row[index] == 0">-</template>
+                  <template v-else>{{ row[index] | numberFormat }}</template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div class="">Source: <a href="https://www.nih.org.pk/novel-coranavirus-2019-ncov/">National Institue of Health - Daily Situation Reports</a></div>
     <!-- END THIRD ROW -->
   </div>
@@ -373,6 +400,7 @@ export default {
   },
   mounted () {
     Axios.all([
+      Axios.get('/table/'),
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Balochistan&aggregate=Sum'),
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Khyber Pakhtunkhwa&aggregate=Sum'),
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Punjab&aggregate=Sum'),
@@ -381,15 +409,16 @@ export default {
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Gilgit-Baltistan&aggregate=Sum'),
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Azad Kashmir&aggregate=Sum'),
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=KP Tribal Districts&aggregate=Sum'),
-      // Axios.get('/query?measure=Confirmed_Cum&groupby=Date'),
       Axios.get('/query?measure=Suspected_Cum&groupby=Date&aggregate=Sum'),
       Axios.get('/query?measure=Tested_Cum&&groupby=Date&aggregate=Sum'),
       Axios.get('/query?measure=Confirmed_24&aggregate=Sum'),
       Axios.get('/query?measure=Admitted_24&aggregate=Sum'),
       Axios.get('/query?measure=Discharged_24&aggregate=Sum'),
       Axios.get('/query?measure=Expired_24&aggregate=Sum'),
-    ]).then( Axios.spread( function(tlBA,tlKP,tlPB,tlSD,tlIS,tlGB,tlAK,tlTD,s24,t24,c24,a24,d24,e24) {
+    ]).then( Axios.spread( function(table, tlBA,tlKP,tlPB,tlSD,tlIS,tlGB,tlAK,tlTD,s24,t24,c24,a24,d24,e24) {
       this.data = {}
+
+      this.data['table'] = JSON.parse(table.data)
 
       this.timeline.data.push({ name: 'Balochistan', x: Object.keys(tlBA.data), y: Object.values(tlBA.data), type: 'scatter' })
       this.timeline.data.push({ name: 'Khyber Pakhtunkhwa', x: Object.keys(tlKP.data), y: Object.values(tlKP.data), type: 'scatter' })

@@ -19,27 +19,27 @@ from rest_framework import routers
 from api import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
-router.register(r'patients', views.PatientViewSet)
-router.register(r'provinces', views.ProvinceViewSet)
-router.register(r'cities', views.CityViewSet)
-router.register(r'status', views.StatusViewSet)
-router.register(r'source', views.SourceViewSet)
-router.register(r'hospitals', views.HospitalViewSet)
-router.register(r'genders', views.GenderViewSet)
+# router.register(r'table', views.table)
+# router.register(r'groups', views.GroupViewSet)
+# router.register(r'patients', views.PatientViewSet)
+# router.register(r'provinces', views.ProvinceViewSet)
+# router.register(r'cities', views.CityViewSet)
+# router.register(r'status', views.StatusViewSet)
+# router.register(r'source', views.SourceViewSet)
+# router.register(r'hospitals', views.HospitalViewSet)
+# router.register(r'genders', views.GenderViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', views.index),
-    path('api/cases/', views.cases),
-    path('api/province_status/', views.province_status),
-    path('api/age_gender/', views.age_gender),
-    path('api/gender/', views.gender),
-    path('api/source/', views.source),
-    path('api/status/', views.status),
-    path('api/province/', views.province),
+    # path('api/cases/', views.cases),
+    # path('api/province_status/', views.province_status),
+    # path('api/age_gender/', views.age_gender),
+    # path('api/gender/', views.gender),
+    # path('api/source/', views.source),
+    # path('api/status/', views.status),
+    path('api/table/', views.table),
     path('api/query/', views.query),
     path('api/', include(router.urls)),
     path('api/auth/', include('rest_auth.urls')),
