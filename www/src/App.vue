@@ -1,12 +1,12 @@
 <template>
-  <div id="app" class="container-fluid py-3">
+  <div id="app" v-if="data" class="container-fluid py-3">
     <div class="d-flex align-items-center">
       <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/State_emblem_of_Pakistan.svg" height="80" class="mr-3 d-none d-md-block">
       <div class="flex-grow-1">
     <small>Ministry of National Health Services Regulation and Coordination, Government of Pakistan.</small>
         <h1 class="text-secondary">COVID-19 PAKISTAN DASHBOARD</h1>
       </div>
-      <span>Last Updated: <strong>{{ today }} 1:00pm</strong></span>
+      <span>Last Updated: <strong>{{ today }}</strong></span>
     </div>
     <hr>
 
@@ -15,37 +15,37 @@
       <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h3 class="card-title text-info low display-4 font-weight-bold">{{ getStats('Suspected_24') | numberFormat }}</h3>
-          <p class="card-text mb-0">SUSPECTED <small>(24 hrs)</small></p>
+          <p class="card-text mb-0">SUSPECTED <small class="text-muted">(Total)</small></p>
         </div>
       </div>
       <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h3 class="card-title text-primary low display-4 font-weight-bold">{{ getStats('Tested_24') | numberFormat }}</h3>
-          <p class="card-text">TESTED <small>(24 hrs)</small></p>
+          <p class="card-text">TESTED <small class="text-muted">(Total)</small></p>
         </div>
       </div>
       <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h3 class="card-title text-danger low display-4 font-weight-bold">{{ getStats('Confirmed_24') | numberFormat }}</h3>
-          <p class="card-text">CONFIRMED <small>(total)</small></p>
+          <p class="card-text">CONFIRMED <small class="text-muted">(Total)</small></p>
         </div>
       </div>
       <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h3 class="card-title text-warning low display-4 font-weight-bold">{{ getStats('Admitted_24') | numberFormat }}</h3>
-          <p class="card-text">ADMITTED <small>(total)</small></p>
+          <p class="card-text">ADMITTED <small class="text-muted">(Total)</small></p>
         </div>
       </div>
       <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h3 class="card-title text-success low display-4 font-weight-bold">{{ getStats('Discharged_24') | numberFormat }}</h3>
-          <p class="card-text">DISCHARGED <small>(total)</small></p>
+          <p class="card-text">DISCHARGED <small class="text-muted">(Total)</small></p>
         </div>
       </div>
       <div class="col-6 col-md">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h3 class="card-title text-danger low display-4 font-weight-bold">{{ getStats('Expired_24') | numberFormat }}</h3>
-          <p class="card-text">EXPIRED <small>(total)</small></p>
+          <p class="card-text">EXPIRED <small class="text-muted">(Total)</small></p>
         </div>
       </div>
     </div>
@@ -184,6 +184,9 @@
         </div>
       </div>
     </div> -->
+    <!-- END THIRD ROW -->
+
+    <!-- BEGIN TIMELINE -->
     <div class="row">
       <div class="col">
         <div class="card card-body border-0 shadow-sm mb-4">
@@ -192,13 +195,15 @@
         </div>
       </div>
     </div>
+    <!-- END TIMELINE -->
 
+    <!-- BEING TABLE -->
     <div class="row">
       <div class="col">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h6 class="card-title">Overall Status by Province</h6>
 
-          <table class="table table-sm">
+          <table class="table table-sm" v-if="data">
             <thead>
               <tr>
                 <th scope="col">Province</th>
@@ -219,8 +224,9 @@
       </div>
     </div>
 
+    <!-- END TABLE -->
+
     <div class="">Source: <a href="https://www.nih.org.pk/novel-coranavirus-2019-ncov/">National Institue of Health - Daily Situation Reports</a></div>
-    <!-- END THIRD ROW -->
   </div>
 </template>
 
@@ -236,6 +242,7 @@ export default {
       data: null,
       province_status: null,
       abc: {},
+      today: null,
       status: null,
       province: null,
       ages: {},
@@ -393,13 +400,9 @@ export default {
       }
     }
   },
-  computed: {
-    today() {
-      return moment().format("Do MMMM YYYY")
-    }
-  },
   mounted () {
     Axios.all([
+      Axios.get('/latest/'),
       Axios.get('/table/'),
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Balochistan&aggregate=Sum'),
       Axios.get('/query/?measure=Confirmed_Cum&groupby=Date&province=Khyber Pakhtunkhwa&aggregate=Sum'),
@@ -415,9 +418,8 @@ export default {
       Axios.get('/query?measure=Admitted_24&aggregate=Sum'),
       Axios.get('/query?measure=Discharged_24&aggregate=Sum'),
       Axios.get('/query?measure=Expired_24&aggregate=Sum'),
-    ]).then( Axios.spread( function(table, tlBA,tlKP,tlPB,tlSD,tlIS,tlGB,tlAK,tlTD,s24,t24,c24,a24,d24,e24) {
+    ]).then( Axios.spread( function(latest, table, tlBA,tlKP,tlPB,tlSD,tlIS,tlGB,tlAK,tlTD,s24,t24,c24,a24,d24,e24) {
       this.data = {}
-
       this.data['table'] = JSON.parse(table.data)
 
       this.timeline.data.push({ name: 'Balochistan', x: Object.keys(tlBA.data), y: Object.values(tlBA.data), type: 'scatter' })
@@ -430,11 +432,9 @@ export default {
       this.timeline.data.push({ name: 'KP Tribal Districts', x: Object.keys(tlTD.data), y: Object.values(tlTD.data), type: 'scatter' })
       // this.timeline.data.push({ name: 'Total', x: Object.keys(confirmed.data), y: Object.values(confirmed.data), type: 'scatter' })
 
-      let today = moment().format('YYYY-MM-D')
-      if (!(today in s24.data) )
-        today = moment().subtract(1, 'days').format('YYYY-MM-D')
-      this.data['Suspected_24'] = s24.data[today]
-      this.data['Tested_24'] = t24.data[today]
+      this.today = moment(latest.data).format('YYYY-MM-D')
+      this.data['Suspected_24'] = s24.data[this.today]
+      this.data['Tested_24'] = t24.data[this.today]
       this.data['Confirmed_24'] = c24.data
       this.data['Admitted_24'] = a24.data
       this.data['Discharged_24'] = d24.data

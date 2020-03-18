@@ -39,6 +39,7 @@ urlpatterns = [
     # path('api/gender/', views.gender),
     # path('api/source/', views.source),
     # path('api/status/', views.status),
+    path('api/latest/', views.latest),
     path('api/table/', views.table),
     path('api/query/', views.query),
     path('api/', include(router.urls)),
