@@ -191,7 +191,8 @@
       <div class="col">
         <div class="card card-body border-0 shadow-sm mb-4">
           <h6 class="card-title">Confirmed Cases by Date</h6>
-          <vue-plotly :data="timeline.data" :layout="timeline.layout" :options="timeline.options" />
+          <!-- <vue-plotly :data="timeline.data" :layout="timeline.layout" :options="timeline.options" /> -->
+          <chart :data="chart.data" :options="chart.options" />
         </div>
       </div>
     </div>
@@ -231,173 +232,29 @@
 </template>
 
 <script>
-import VuePlotly from '@statnett/vue-plotly'
 import Axios from 'axios'
 import moment from 'moment'
+import Chart from '@/components/Chart'
 export default {
   name: 'App',
-  components: { VuePlotly },
+  components: { Chart },
   data () {
     return {
+      chart: {
+        data: {
+          labels: [],
+          datasets: []
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      },
       data: null,
-      province_status: null,
-      abc: {},
       today: null,
-      status: null,
-      province: null,
-      ages: {},
-      timeline: {
-        data: [
-          
-        ],
-        layout: {
-          height: 300,
-          margin: { r: 0, b: 30, l: 30, t: 0 },
-        },
-        options: {
-          displayModeBar: false,
-          responsive: true
-        }
-      },
-      provinces: {
-        data: [
-          {
-            x: [],
-            y: [],
-            name: 'Admitted, Serious',
-            type: 'bar',
-            hoverinfo: 'none',
-            marker: { color: "#FFAF7B" }
-          },
-          {
-            x: [],
-            y: [],
-            name: 'Admitted, Stable',
-            type: 'bar',
-            marker: { color: "#E48278" }
-          },
-          {
-            x: [],
-            y: [],
-            name: 'Expired',
-            type: 'bar',
-            marker: { color: "#854274" }
-          },
-          {
-            x: [],
-            y: [],
-            name: 'Recovered, Discharged',
-            type: 'bar',
-            marker: { color: "#3A1C71" }
-          }
-        ],
-        layout: {
-          autosize: true, 
-          barmode: 'stack',
-          margin: {
-            r: 80,
-            b: 100,
-            l: 0,
-            t: 0,
-          },
-        },
-        options: {
-          displayModeBar: false,
-          responsive: true
-        }
-      },
-      gender: {
-        data: [
-          {
-            values: [],
-            labels: ['Male', 'Female'],
-            hoverinfo: 'label+percent+name',
-            hole: .4,
-            type: 'pie',
-            marker: {
-              colors: ['#D76D77', '#3A1C71']
-            },
-          }
-        ],
-        layout: {
-          legend: {
-            x: 1,
-            xanchor: 'right',
-            y: 1
-          },
-          margin: {
-            r: 0,
-            b: 0,
-            l: 0,
-            t: 0,
-          },
-        },
-        options: {
-          displayModeBar: false,
-          responsive: true
-        }
-      },
-      source: {
-        data: [
-          {
-            values: [],
-            labels: ['International Travel', 'Human Transmissions'],
-            hoverinfo: 'label+percent+name',
-            hole: .4,
-            type: 'pie',
-            marker: {
-              colors: ['#D76D77', '#3A1C71']
-            },
-          }
-        ],
-        layout: {
-          legend: {
-            x: 1,
-            xanchor: 'right',
-            y: 1
-          },
-          margin: {
-            r: 0,
-            b: 0,
-            l: 0,
-            t: 0,
-          },
-        },
-        options: {
-          displayModeBar: false,
-          responsive: true
-        }
-      },
-      age: {
-        data: [
-          {
-            x: [],
-            base: [],
-            y: ['0-10', '11-20', '21-30','31-40','41-50','51-60','61-70', '70+'],
-            name: 'Male',
-            orientation: 'h',
-            type: 'bar',
-            marker: { color: "#D76D77" }
-          },
-          {
-            x: [],
-            y: ['0-10', '11-20', '21-30','31-40','41-50','51-60','61-70', '70+'],
-            name: 'Female',
-            orientation: 'h',
-            type: 'bar',
-            marker: { color: "#3A1C71" }
-          }
-        ],
-        layout: {
-          autosize: true,
-          barmode: 'stack',
-          margin: { r: 0, b: 0, l: 50, t: 0 },
-        },
-        options: {
-          displayModeBar: false,
-          responsive: true
-        }
-      }
+      provinces: ['Balochistan', 'Khyber Pakhtunkhwa','Punjab','Sindh','Islamabad','Gilgit-Baltistan','Azad Kashmir','KP Tribal Districts'],
+      codes: ['tlBA','tlKP','tlPB','tlSD','tlIS','tlGB','tlAK','tlTD'],
+      colors: ['#d73027','#f46d43','#fdae61','#fee090','#e0f3f8','#abd9e9','#74add1','#4575b4']
     }
   },
   mounted () {
@@ -422,15 +279,16 @@ export default {
       this.data = {}
       this.data['table'] = JSON.parse(table.data)
 
-      this.timeline.data.push({ name: 'Balochistan', x: Object.keys(tlBA.data), y: Object.values(tlBA.data), type: 'scatter' })
-      this.timeline.data.push({ name: 'Khyber Pakhtunkhwa', x: Object.keys(tlKP.data), y: Object.values(tlKP.data), type: 'scatter' })
-      this.timeline.data.push({ name: 'Punjab', x: Object.keys(tlPB.data), y: Object.values(tlPB.data), type: 'scatter' })
-      this.timeline.data.push({ name: 'Sindh', x: Object.keys(tlSD.data), y: Object.values(tlSD.data), type: 'scatter' })
-      this.timeline.data.push({ name: 'Islamabad', x: Object.keys(tlIS.data), y: Object.values(tlIS.data), type: 'scatter' })
-      this.timeline.data.push({ name: 'Gilgit-Baltistan', x: Object.keys(tlGB.data), y: Object.values(tlGB.data), type: 'scatter' })
-      this.timeline.data.push({ name: 'Azad Kashmir', x: Object.keys(tlAK.data), y: Object.values(tlAK.data), type: 'scatter' })
-      this.timeline.data.push({ name: 'KP Tribal Districts', x: Object.keys(tlTD.data), y: Object.values(tlTD.data), type: 'scatter' })
-      // this.timeline.data.push({ name: 'Total', x: Object.keys(confirmed.data), y: Object.values(confirmed.data), type: 'scatter' })
+      this.chart.data.labels = Object.keys(s24.data)
+
+      this.chart.data.datasets.push({ label: 'Balochistan', data: Object.values(tlBA.data), backgroundColor: this.color('Balochistan'), borderColor: this.color('Balochistan'), fill: false })
+      this.chart.data.datasets.push({ label: 'Khyber Pakhtunkhwa', data: Object.values(tlKP.data), backgroundColor: this.color('Khyber Pakhtunkhwa'), borderColor: this.color('Khyber Pakhtunkhwa'), fill: false })
+      this.chart.data.datasets.push({ label: 'Punjab', data: Object.values(tlPB.data), backgroundColor: this.color('BaloPunjabchistan'), borderColor: this.color('Punjab'), fill: false })
+      this.chart.data.datasets.push({ label: 'Sindh', data: Object.values(tlSD.data), backgroundColor: this.color('Sindh'), borderColor: this.color('Sindh'), fill: false })
+      this.chart.data.datasets.push({ label: 'Islamabad', data: Object.values(tlIS.data), backgroundColor: this.color('Islamabad'), borderColor: this.color('Islamabad'), fill: false })
+      this.chart.data.datasets.push({ label: 'Gilgit-Baltistan', data: Object.values(tlGB.data), backgroundColor: this.color('Gilgit-Baltistan'), borderColor: this.color('Gilgit-Baltistan'), fill: false })
+      this.chart.data.datasets.push({ label: 'Azad Kashmir', data: Object.values(tlAK.data), backgroundColor: this.color('Azad Kashmir'), borderColor: this.color('Azad Kashmir'), fill: false })
+      this.chart.data.datasets.push({ label: 'KP Tribal Districts', data: Object.values(tlTD.data), backgroundColor: this.color('KP Tribal Districts'), borderColor: this.color('KP Tribal Districts'), fill: false })
 
       this.today = moment(latest.data).format('YYYY-MM-D')
       this.data['Suspected_24'] = s24.data[this.today]
@@ -440,52 +298,6 @@ export default {
       this.data['Discharged_24'] = d24.data
       this.data['Expired_24'] = e24.data
 
-      // Convert objects into arrays
-      // for (let [key, value] of Object.entries(this.data)) {
-      //   this.data[key] = Object.values(this.data[key])
-      //   console.log(value)
-      // }
-
-      // Process Status data for boxes
-      // this.status = status.data
-
-      // Process Gender data for pie chart
-      // this.gender.data[0].values = Object.values(gender.data)
-      // this.gender.data[0].labels = Object.keys(gender.data)
-
-      // // Process Source data; for pie chart
-      // this.source.data[0].values = Object.values(source.data)
-      // this.source.data[0].labels = Object.keys(source.data)
-
-      // // Process Provinces data for color map
-      // this.province = province.data
-
-      // // Process Province.Status data for bar chart
-      // var index = 0;
-      // this.province_status = JSON.parse(province_status.data)
-      // for (let [key, value] of Object.entries(this.province_status)) {
-      //   this.provinces.data[index].x = []
-      //   this.provinces.data[index].y = []
-      //   for (let [x, y] of Object.entries(value)) {
-      //     console.log(key, value)
-      //     this.provinces.data[index].x.push(x)
-      //     this.provinces.data[index].y.push(y)
-      //     this.provinces.data[index].text = this.provinces.data[index].x.map(String)
-      //   }
-      //   index++
-      // }
-
-      // // Process 
-
-      // this.age_gender = JSON.parse(age_gender.data)
-      // this.age.data[0].x = Object.values(this.ages['Male'])
-      // this.age.data[0].x.forEach(e => {
-      //   this.age.data[0].base.push(-e)
-      // })
-      // this.age.data[1].x = Object.values(this.ages['Female'])
-      // this.age.data[0].y = Object.keys(this.ages['Male'])
-      // this.age.data[1].y = Object.keys(this.ages['Female'])
-
     }.bind(this)))
     .catch (error => console.log(error) )
   },
@@ -493,6 +305,9 @@ export default {
     getStats(indicator) {
       if (this.data && indicator in this.data) return this.data[indicator]
       return 0
+    },
+    color(province) {
+      return this.colors[this.provinces.indexOf(province)]
     },
     colorme(province) {
       if (this.province) {
