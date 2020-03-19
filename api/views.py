@@ -16,8 +16,8 @@ def index(request):
     df_local = pandas.read_csv('SHEETS.csv', header=1)
     df_local['Date'] = pandas.to_datetime(df_local['Date'], format='%d-%m-%y')
 
-    df_table = df_local.groupby('Province').sum()
-    df_table = df_table[['Suspected_24','Tested_24','Confirmed_24','Admitted_24','Discharged_24','Expired_24']]
+    df_table = df_local[df_local['Date'] == df_local['Date'].max()].groupby('Province').sum()
+    df_table = df_table[['Suspected_Cum','Tested_Cum','Confirmed_Cum','Admitted_Cum','Discharged_Cum','Expired_Cum']]
 
     df_dates = df_local.groupby('Date').sum()
 
