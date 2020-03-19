@@ -22,37 +22,37 @@
       <div class="row">
         <div class="col-6 col-md">
           <div class="card card-body border-0 shadow-sm mb-4">
-            <h3 class="card-title text-info low display-4 font-weight-normal">[[ data.summary.Suspected_Cum ]]</h3>
+            <h3 class="card-title text-info low display-4 font-weight-normal">[[ data.summary.Suspected_Cum | numberFormat ]]</h3>
             <p class="card-text mb-0">SUSPECTED</p>
           </div>
         </div>
         <div class="col-6 col-md">
           <div class="card card-body border-0 shadow-sm mb-4">
-            <h3 class="card-title text-primary low display-4 font-weight-normal">[[ data.summary.Tested_Cum ]]</h3>
+            <h3 class="card-title text-primary low display-4 font-weight-normal">[[ data.summary.Tested_Cum | numberFormat ]]</h3>
             <p class="card-text">TESTED</p>
           </div>
         </div>
         <div class="col-6 col-md">
           <div class="card card-body border-0 shadow-sm mb-4">
-            <h3 class="card-title text-danger low display-4 font-weight-normal">[[ data.summary.Confirmed_Cum ]]</h3>
+            <h3 class="card-title text-danger low display-4 font-weight-normal">[[ data.summary.Confirmed_Cum | numberFormat ]]</h3>
             <p class="card-text">CONFIRMED</p>
           </div>
         </div>
         <div class="col-6 col-md">
           <div class="card card-body border-0 shadow-sm mb-4">
-            <h3 class="card-title text-warning low display-4 font-weight-normal">[[ data.summary.Admitted_Cum ]]</h3>
+            <h3 class="card-title text-warning low display-4 font-weight-normal">[[ data.summary.Admitted_Cum | numberFormat ]]</h3>
             <p class="card-text">ADMITTED</p>
           </div>
         </div>
         <div class="col-6 col-md">
           <div class="card card-body border-0 shadow-sm mb-4">
-            <h3 class="card-title text-success low display-4 font-weight-normal">[[ data.summary.Discharged_Cum ]]</h3>
+            <h3 class="card-title text-success low display-4 font-weight-normal">[[ data.summary.Discharged_Cum | numberFormat ]]</h3>
             <p class="card-text">DISCHARGED</p>
           </div>
         </div>
         <div class="col-6 col-md">
           <div class="card card-body border-0 shadow-sm mb-4">
-            <h3 class="card-title text-danger low display-4 font-weight-normal">[[ data.summary.Expired_Cum ]]</h3>
+            <h3 class="card-title text-danger low display-4 font-weight-normal">[[ data.summary.Expired_Cum | numberFormat ]]</h3>
             <p class="card-text">EXPIRED</p>
           </div>
         </div>
@@ -123,7 +123,7 @@
                   <td>[[ data.table.index[index] ]]</td>
                   <td v-for="(col, index) in data.table.columns" :key="index" class="text-center">
                     <template v-if="row[index] == 0">-</template>
-                    <template v-else>[[ row[index] ]]</template>
+                    <template v-else>[[ row[index] | numberFormat ]]</template>
                   </td>
                 </tr>
               </tbody>
@@ -137,6 +137,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script type='text/javascript'>
       var _summary = {{ summary | safe }}
       var _table = {{ table|safe }}
@@ -210,6 +211,11 @@
               p[key] = Math.round((p[key]/total)*10,0)
             }
             return this.percentage[p[province]]
+          }
+        },
+        filters: {
+          numberFormat: function(value, decimal=0) {
+            return numeral(Math.round(value, decimal)).format('0,0');
           }
         }
       })
