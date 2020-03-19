@@ -133,9 +133,19 @@
       </div>
       <!-- END TABLE -->
 
+      <div class="row">
+        <div class="col mb-4">
+          <div class="card card-body border-0 shadow-sm">
+            <h6 class="card-title">Comparison With Other Countries</h6>
+            <div class="card-text"><canvas id="comparison" height="400"></canvas></div>
+          </div>
+        </div>
+      </div>
+
       <div class="">Source: <a href="https://www.nih.org.pk/novel-coranavirus-2019-ncov/">National Institue of Health - Daily Situation Reports</a></div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script type='text/javascript'>
@@ -152,6 +162,13 @@
         { label: 'Gilgit-Baltistan', data: {{ Gilgit }}, backgroundColor: null, borderColor: null, fill: false },
         { label: 'Azad Kashmir', data: {{ Kashmir }}, backgroundColor: null, borderColor: null, fill: false },
         { label: 'KP Tribal Districts', data: {{ Tribal }}, backgroundColor: null, borderColor: null, fill: false },
+      ]
+      var _x = {{ comparison | safe }}
+      var _comparison = [
+        { label: 'Pakistan', data: Object.values(_x.Pakistan).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Spain', data: Object.values(_x.Spain), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Iran', data: Object.values(_x.Iran), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Italy', data: Object.values(_x.Italy), backgroundColor: null, borderColor: null, fill: false },
       ]
     </script>
     <script>
@@ -177,10 +194,28 @@
               table: _table,
               summary: _summary
             },
+            intl: {
+              type: 'line',
+              data: {
+                labels: Object.keys(_x.Pakistan),
+                datasets: _comparison
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                yAxes: [{
+                  display: true,
+                  type: 'logarithmic',
+                }]
+              }
+              }
+            },
             today: _latest,
             provinces: ['Balochistan', 'Khyber Pakhtunkhwa','Punjab','Sindh','Islamabad','Gilgit-Baltistan','Azad Kashmir','KP Tribal Districts'],
             colors: ['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e','#e6ab02','#a6761d','#666666'],
-            percentage: ['#fff5eb','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704']
+            percentage: ['#fff5eb','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'],
+            countries: ['Pakistan', 'Spain', 'Iran', 'Italy']
           }
         },
         mounted: function () {
@@ -188,9 +223,17 @@
             this.chart.data.datasets[i].backgroundColor = this.color(v)
             this.chart.data.datasets[i].borderColor = this.color(v)
           }.bind(this));
+
+          this.countries.forEach(function(v,i) {
+            this.intl.data.datasets[i].backgroundColor = this.country_color(v)
+            this.intl.data.datasets[i].borderColor = this.country_color(v)
+          }.bind(this));
           
           var ctx = document.getElementById('timeline').getContext('2d');
           var myChart = new Chart(ctx, this.chart);
+
+          var ctx = document.getElementById('comparison').getContext('2d');
+          var myChart = new Chart(ctx, this.intl);
         },
         methods: {
           getStats(indicator) {
@@ -211,6 +254,12 @@
               p[key] = Math.round((p[key]/total)*10,0)
             }
             return this.percentage[p[province]]
+          },
+          country_color(country) {
+            if (country == 'Pakistan') return this.colors[0]
+            if (country == 'Spain') return this.colors[1]
+            if (country == 'Iran') return this.colors[2]
+            if (country == 'Italy') return this.colors[3]
           }
         },
         filters: {

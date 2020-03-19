@@ -13,110 +13,115 @@ from django.utils.safestring import SafeString
 
 def index(request):
 
-    df = pandas.read_csv('SHEETS.csv', header=1)
-    df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
+    df_local = pandas.read_csv('SHEETS.csv', header=1)
+    df_local['Date'] = pandas.to_datetime(df_local['Date'], format='%d-%m-%y')
 
-    df_table = df.groupby('Province').sum()
+    df_table = df_local.groupby('Province').sum()
     df_table = df_table[['Suspected_24','Tested_24','Confirmed_24','Admitted_24','Discharged_24','Expired_24']]
 
-    df_dates = df.groupby('Date').sum()
+    df_dates = df_local.groupby('Date').sum()
+
+    df_intl = pandas.read_csv('INTL.csv', header=1)
     
     return render(request, 'api/index.html', {
-        'summary': dict(df.groupby(['Date']).sum().iloc[-1, :][['Suspected_Cum','Tested_Cum','Confirmed_Cum','Admitted_Cum','Discharged_Cum','Expired_Cum']]),
+        'summary': dict(df_local.groupby(['Date']).sum().iloc[-1, :][['Suspected_Cum','Tested_Cum','Confirmed_Cum','Admitted_Cum','Discharged_Cum','Expired_Cum']]),
         'table': df_table.to_json(orient='split'),
-        'today': df['Date'].max().strftime('%d-%m-%Y'),
-        'dates': list(df['Date'].sort_values().dt.strftime('%d-%m-%Y').unique()),
-        'Balochistan': list(df[df['Province']=='Balochistan'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Pakhtunkhwa': list(df[df['Province']=='Khyber Pakhtunkhwa'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Punjab': list(df[df['Province']=='Punjab'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Sindh': list(df[df['Province']=='Sindh'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Islamabad': list(df[df['Province']=='Islamabad'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Gilgit': list(df[df['Province']=='Gilgit-Baltistan'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Kashmir': list(df[df['Province']=='Azad Kashmir'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Tribal': list(df[df['Province']=='KP Tribal Districts'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'today': df_local['Date'].max().strftime('%d-%m-%Y'),
+        'dates': list(df_local['Date'].sort_values().dt.strftime('%d-%m-%Y').unique()),
+        'Balochistan': list(df_local[df_local['Province']=='Balochistan'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Pakhtunkhwa': list(df_local[df_local['Province']=='Khyber Pakhtunkhwa'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Punjab': list(df_local[df_local['Province']=='Punjab'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Sindh': list(df_local[df_local['Province']=='Sindh'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Islamabad': list(df_local[df_local['Province']=='Islamabad'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Gilgit': list(df_local[df_local['Province']=='Gilgit-Baltistan'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Kashmir': list(df_local[df_local['Province']=='Azad Kashmir'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Tribal': list(df_local[df_local['Province']=='KP Tribal Districts'].groupby(['Date']).sum()['Confirmed_Cum']),
+
+        'comparison': df_intl.to_json(orient='columns')
+
     })
 
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def cases(request):
-#     df = pandas.read_sql(query, connection)
-#     return Response(df.to_json(orient='columns'))
+#     df_local = pandas.read_sql(query, connection)
+#     return Response(df_local.to_json(orient='columns'))
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def province_status(request):
-#     df = pandas.read_sql(query, connection)
-#     df = pandas.crosstab(df['Province'], df['Status'])
-#     return Response(df.to_json(orient='columns'))
+#     df_local = pandas.read_sql(query, connection)
+#     df_local = pandas.crosstab(df_local['Province'], df_local['Status'])
+#     return Response(df_local.to_json(orient='columns'))
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def map(request):
-#     df = pandas.read_sql(query, connection)
-#     c = df.groupby('Province').size()
+#     df_local = pandas.read_sql(query, connection)
+#     c = df_local.groupby('Province').size()
 #     return Response(c)
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def age_gender(request):
-#     df = pandas.read_sql(query, connection)
+#     df_local = pandas.read_sql(query, connection)
 #     bins = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 #     labels = ['0-10','10-20','20-30','30-40','40-50','50-60','60-70','70-80','80-90','90-100']
-#     df['binned'] = pandas.cut(df['Age'], bins=bins, labels=labels)
-#     df = pandas.crosstab(df.binned, df.Gender)
-#     return Response(df.to_json(orient='columns'))
+#     df_local['binned'] = pandas.cut(df_local['Age'], bins=bins, labels=labels)
+#     df_local = pandas.crosstab(df_local.binned, df_local.Gender)
+#     return Response(df_local.to_json(orient='columns'))
 
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def status(request):
-#     df = pandas.read_sql(query, connection)
-#     return Response(dict(pandas.value_counts(df['Status'])))
+#     df_local = pandas.read_sql(query, connection)
+#     return Response(dict(pandas.value_counts(df_local['Status'])))
 
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def gender(request):
-#     df = pandas.read_sql(query, connection)
-#     return Response(dict(pandas.value_counts(df['Gender'])))
+#     df_local = pandas.read_sql(query, connection)
+#     return Response(dict(pandas.value_counts(df_local['Gender'])))
 
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def source(request):
-#     df = pandas.read_sql(query, connection)
-#     return Response(dict(pandas.value_counts(df['Source'])))
+#     df_local = pandas.read_sql(query, connection)
+#     return Response(dict(pandas.value_counts(df_local['Source'])))
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
 # def province(request):
-#     df = pandas.read_sql(query, connection)
-#     hist = dict(pandas.value_counts(df['Province'], normalize=True))
+#     df_local = pandas.read_sql(query, connection)
+#     hist = dict(pandas.value_counts(df_local['Province'], normalize=True))
 #     hist.update((x, int(y*100)) for x, y in hist.items())
 #     return Response(hist)
 
 # @api_view()
 # # @permission_classes([IsAuthenticated])
 # def query(request):
-#     df = pandas.read_csv('SHEETS.csv', header=1)
-#     df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
+#     df_local = pandas.read_csv('SHEETS.csv', header=1)
+#     df_local['Date'] = pandas.to_datetime(df_local['Date'], format='%d-%m-%y')
 
 #     if (request.GET):
 #         if 'date' in request.GET:
-#             df = df[df['Date'] == request.GET.get('date')]
+#             df_local = df_local[df_local['Date'] == request.GET.get('date')]
 #         if 'province' in request.GET:
-#             df = df[df['Province'] == request.GET.get('province')]
+#             df_local = df_local[df_local['Province'] == request.GET.get('province')]
 #         if 'groupby' in request.GET:
-#             df = df.groupby([request.GET.get('groupby')])
+#             df_local = df_local.groupby([request.GET.get('groupby')])
 
 #         if 'measure' in request.GET:
 #             if 'aggregate' in request.GET:
 #                 aggregate = request.GET.get('aggregate')
 #                 if aggregate == 'Sum':
-#                     df = df.sum()[request.GET.get('measure')]
+#                     df_local = df_local.sum()[request.GET.get('measure')]
 #                 elif aggregate == 'Mean':
-#                     df = df.mean()[request.GET.get('measure')]
+#                     df_local = df_local.mean()[request.GET.get('measure')]
 #                 else:
 #                     return Response('Invalid aggregate method', status=400)
 #             else: 
@@ -126,11 +131,11 @@ def index(request):
 
 #         if 'groupby' in request.GET:
 #             if request.GET.get('groupby') == 'Date':
-#                 return Response({x.strftime("%Y-%m-%d"):y for (x,y) in dict(df).items()})
+#                 return Response({x.strftime("%Y-%m-%d"):y for (x,y) in dict(df_local).items()})
 #             else:
-#                 return Response(dict(df))
+#                 return Response(dict(df_local))
 #         else:
-#             return Response(df)
+#             return Response(df_local)
 
 #     return Response('No inputs provided', status=400)
     
