@@ -1,24 +1,41 @@
-from rest_framework.decorators import api_view#, permission_classes
+# from rest_framework.decorators import api_view#, permission_classes
 # from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
+# from rest_framework.response import Response
+from django.shortcuts import render
 from django.contrib.auth.models import Group
-from rest_framework import viewsets, permissions
+# from rest_framework import viewsets, permissions
 from api import models, serializers
 from django.db import connection
-import pandas
+import pandas, json
+from django.utils.safestring import SafeString
 
-@api_view(('GET',))
+
+
 def index(request):
-    return Response(data='COVID19 Dashboard API')
 
+    df = pandas.read_csv('SHEETS.csv', header=1)
+    df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
 
-# query = "select ap.age as 'Age', ac.name as 'City', apr.name as 'Province', ag.name as 'Gender', ast.name as 'Status', aso.name as 'Source'  from api_patient ap\
-#         join api_city ac on ac.id = ap.city_id\
-#         join api_province apr on apr.id = ap.province_id\
-#         join api_gender ag on ag.id = ap.gender_id\
-#         join api_status as ast on ast.id = ap.status_id\
-#         join api_source as aso on aso.id = ap.source_id\
-#         join api_hospital as ah on ah.id = ap.hospital_id"
+    df_table = df.groupby('Province').sum()
+    df_table = df_table[['Suspected_24','Tested_24','Confirmed_24','Admitted_24','Discharged_24','Expired_24']]
+
+    df_dates = df.groupby('Date').sum()
+    
+    return render(request, 'api/index.html', {
+        'summary': dict(df.groupby(['Date']).sum().iloc[-1, :][['Suspected_Cum','Tested_Cum','Confirmed_Cum','Admitted_Cum','Discharged_Cum','Expired_Cum']]),
+        'table': df_table.to_json(orient='split'),
+        'today': df['Date'].max().strftime('%d-%m-%Y'),
+        'dates': list(df['Date'].sort_values().dt.strftime('%d-%m-%Y').unique()),
+        'Balochistan': list(df[df['Province']=='Balochistan'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Pakhtunkhwa': list(df[df['Province']=='Khyber Pakhtunkhwa'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Punjab': list(df[df['Province']=='Punjab'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Sindh': list(df[df['Province']=='Sindh'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Islamabad': list(df[df['Province']=='Islamabad'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Gilgit': list(df[df['Province']=='Gilgit-Baltistan'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Kashmir': list(df[df['Province']=='Azad Kashmir'].groupby(['Date']).sum()['Confirmed_Cum']),
+        'Tribal': list(df[df['Province']=='KP Tribal Districts'].groupby(['Date']).sum()['Confirmed_Cum']),
+    })
+
 
 # @api_view()
 # @permission_classes([IsAuthenticated])
@@ -79,58 +96,43 @@ def index(request):
 #     hist.update((x, int(y*100)) for x, y in hist.items())
 #     return Response(hist)
 
-@api_view()
-# @permission_classes([IsAuthenticated])
-def latest(request):
-    df = pandas.read_csv('SHEETS.csv', header=1)
-    return Response(pandas.to_datetime(df['Date'], format='%d-%m-%y').max())
+# @api_view()
+# # @permission_classes([IsAuthenticated])
+# def query(request):
+#     df = pandas.read_csv('SHEETS.csv', header=1)
+#     df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
 
-@api_view()
-# @permission_classes([IsAuthenticated])
-def table(request):
-    df = pandas.read_csv('SHEETS.csv', header=1)
-    df = df.groupby('Province').sum()
-    df = df[['Suspected_24','Tested_24','Confirmed_24','Admitted_24','Discharged_24','Expired_24']]
-    return Response(df.to_json(orient='split'))
+#     if (request.GET):
+#         if 'date' in request.GET:
+#             df = df[df['Date'] == request.GET.get('date')]
+#         if 'province' in request.GET:
+#             df = df[df['Province'] == request.GET.get('province')]
+#         if 'groupby' in request.GET:
+#             df = df.groupby([request.GET.get('groupby')])
 
+#         if 'measure' in request.GET:
+#             if 'aggregate' in request.GET:
+#                 aggregate = request.GET.get('aggregate')
+#                 if aggregate == 'Sum':
+#                     df = df.sum()[request.GET.get('measure')]
+#                 elif aggregate == 'Mean':
+#                     df = df.mean()[request.GET.get('measure')]
+#                 else:
+#                     return Response('Invalid aggregate method', status=400)
+#             else: 
+#                 return Response('No aggregate selected', status=400)
+#         else:
+#             return Response('No measure selected', status=400)
 
-@api_view()
-# @permission_classes([IsAuthenticated])
-def query(request):
-    df = pandas.read_csv('SHEETS.csv', header=1)
-    df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
+#         if 'groupby' in request.GET:
+#             if request.GET.get('groupby') == 'Date':
+#                 return Response({x.strftime("%Y-%m-%d"):y for (x,y) in dict(df).items()})
+#             else:
+#                 return Response(dict(df))
+#         else:
+#             return Response(df)
 
-    if (request.GET):
-        if 'date' in request.GET:
-            df = df[df['Date'] == request.GET.get('date')]
-        if 'province' in request.GET:
-            df = df[df['Province'] == request.GET.get('province')]
-        if 'groupby' in request.GET:
-            df = df.groupby([request.GET.get('groupby')])
-
-        if 'measure' in request.GET:
-            if 'aggregate' in request.GET:
-                aggregate = request.GET.get('aggregate')
-                if aggregate == 'Sum':
-                    df = df.sum()[request.GET.get('measure')]
-                elif aggregate == 'Mean':
-                    df = df.mean()[request.GET.get('measure')]
-                else:
-                    return Response('Invalid aggregate method', status=400)
-            else: 
-                return Response('No aggregate selected', status=400)
-        else:
-            return Response('No measure selected', status=400)
-
-        if 'groupby' in request.GET:
-            if request.GET.get('groupby') == 'Date':
-                return Response({x.strftime("%Y-%m-%d"):y for (x,y) in dict(df).items()})
-            else:
-                return Response(dict(df))
-        else:
-            return Response(df)
-
-    return Response('No inputs provided', status=400)
+#     return Response('No inputs provided', status=400)
     
 
 # class UserViewSet(viewsets.ModelViewSet):
