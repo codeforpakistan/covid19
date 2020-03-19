@@ -1,5 +1,5 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view#, permission_classes
+# from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import Group
 from rest_framework import viewsets, permissions
@@ -80,13 +80,13 @@ def index(request):
 #     return Response(hist)
 
 @api_view()
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def latest(request):
     df = pandas.read_csv('SHEETS.csv', header=1)
     return Response(pandas.to_datetime(df['Date'], format='%d-%m-%y').max())
 
 @api_view()
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def table(request):
     df = pandas.read_csv('SHEETS.csv', header=1)
     df = df.groupby('Province').sum()
@@ -95,7 +95,7 @@ def table(request):
 
 
 @api_view()
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def query(request):
     df = pandas.read_csv('SHEETS.csv', header=1)
     df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
