@@ -8,6 +8,7 @@
     <title>COVID Pakistan Dashboard</title>
   </head>
   <body class="bg-light">
+    
     <div id="app">
       <main class="container-fluid py-3">
         <nav class="row text-secondary mb-4">
@@ -277,6 +278,7 @@
         }
       })
     </script>
+    {% if request.get_host == 'covid.codeforpakistan.org' %} 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155905112-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -285,6 +287,7 @@
 
       gtag('config', 'UA-155905112-1');
     </script>
+    {% endif %}
     
   </body>
 </html>
