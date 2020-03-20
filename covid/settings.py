@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'covid.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, env('DB_DATABASE')),
     }
 }
 
@@ -106,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = env('LANG_CODE')
 
-TIME_ZONE = 'Asia/Karachi'
+TIME_ZONE = env('TIME_ZONE')
 
 USE_I18N = True
 
@@ -120,8 +120,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = env('STATIC_URL')
+STATIC_ROOT = os.path.join(BASE_DIR, env('STATIC_ROOT'))
 
 
 IDIMS_API = env('IDIMS_API')

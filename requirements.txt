@@ -3,11 +3,7 @@ cachetools==4.0.0
 certifi==2019.11.28
 chardet==3.0.4
 Django==3.0.4
-django-cors-headers==3.2.1
 django-environ==0.4.5
-django-rest-auth==0.9.5
-django-rest-framework==0.1.0
-djangorestframework==3.11.0
 google-api-core==1.16.0
 google-api-python-client==1.8.0
 google-auth==1.11.3
