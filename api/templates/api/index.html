@@ -196,7 +196,15 @@
               },
               options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                  yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Number of confirmed cases',
+                    }
+                  }]
+                }
               }
             },
             data: {
@@ -213,11 +221,21 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                yAxes: [{
-                  display: true,
-                  type: 'logarithmic',
-                }]
-              }
+                  xAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Days since first confirmed case',
+                    }
+                  }],
+                  yAxes: [{
+                    display: true,
+                    type: 'logarithmic',
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Number of confirmed cases (Logarithmic scale)',
+                    }
+                  }]
+                }
               }
             },
             today: _latest,
