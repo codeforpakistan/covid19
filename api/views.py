@@ -1,3 +1,9 @@
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle
 from django.shortcuts import render
 import pandas, json
 
@@ -28,4 +34,25 @@ def index(request):
         'Kashmir': list(df_local[df_local['Province']=='Azad Kashmir'].groupby(['Date']).sum()['Confirmed_Cum']),
         'Tribal': list(df_local[df_local['Province']=='KP Tribal Districts'].groupby(['Date']).sum()['Confirmed_Cum']),
         'comparison': df_intl.to_json(orient='columns')
+    })
+
+
+class TenPerDayUserThrottle(UserRateThrottle):
+    rate = '1/sec'
+
+
+@api_view()
+@permission_classes([IsAuthenticated])
+@throttle_classes([TenPerDayUserThrottle])
+def summary(request):
+    df = pandas.read_csv('SHEETS.csv', header=1)
+    df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
+
+    df_total = df.rename(columns={ 'Suspected_Cum': 'Suspected', 'Tested_Cum': 'Tested', 'Confirmed_Cum': 'Confirmed', 'Admitted_Cum': 'Admitted', 'Discharged_Cum': 'Discharged', 'Expired_Cum': 'Expired' })
+    df_today = df.rename(columns={ 'Suspected_24': 'Suspected', 'Tested_24': 'Tested', 'Confirmed_24': 'Confirmed', 'Admitted_24': 'Admitted', 'Discharged_24': 'Discharged', 'Expired_24': 'Expired' })
+
+    return Response({
+        'total': dict(df_total.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']]),
+        'today': dict(df_today.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']]),
+        'province_total': dict(pandas.pivot_table(df, values='Confirmed_Cum', index=df['Date'], columns=df['Province'], aggfunc='sum').iloc[-1, :])
     })
