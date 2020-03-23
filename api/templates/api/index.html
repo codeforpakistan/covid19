@@ -147,8 +147,8 @@
         </div>
 
         <div class="row mb-3">
-          <div class="col-md">Source: <a href="https://www.nih.org.pk/novel-coranavirus-2019-ncov/">National Institue of Health - Daily Situation Reports</a></div>
-          <div class="col-md text-md-right">Made by <a href="http://codeforpakistan.org">Code for Pakistan</a></div>
+          <div class="col-md">Source: <a href="https://www.nih.org.pk/novel-coranavirus-2019-ncov/" target="_blank">National Institue of Health - Daily Situation Reports</a></div>
+          <div class="col-md text-md-right">Made by <a href="https://codeforpakistan.org" target="_blank">Code for Pakistan</a>. Source code available on <a href="https://github.com/codeforpakistan/covid19" target="_blank">GitHub</a></div>
         </div>
 
       </main>
@@ -170,7 +170,7 @@
         { label: 'Islamabad', data: {{ Islamabad }}, backgroundColor: null, borderColor: null, fill: false },
         { label: 'Gilgit-Baltistan', data: {{ Gilgit }}, backgroundColor: null, borderColor: null, fill: false },
         { label: 'Azad Kashmir', data: {{ Kashmir }}, backgroundColor: null, borderColor: null, fill: false },
-        { label: 'KP Tribal Districts', data: {{ Tribal }}, backgroundColor: null, borderColor: null, fill: false },
+        // { label: 'KP Tribal Districts', data: {{ Tribal }}, backgroundColor: null, borderColor: null, fill: false },
       ]
       var _x = {{ comparison | safe }}
       var _comparison = [
@@ -239,7 +239,7 @@
               }
             },
             today: _latest,
-            provinces: ['Balochistan', 'Khyber Pakhtunkhwa','Punjab','Sindh','Islamabad','Gilgit-Baltistan','Azad Kashmir','KP Tribal Districts'],
+            provinces: ['Balochistan', 'Khyber Pakhtunkhwa','Punjab','Sindh','Islamabad','Gilgit-Baltistan','Azad Kashmir'],
             colors: ['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e','#e6ab02','#a6761d','#666666'],
             percentage: ['#fff5eb','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'],
             countries: ['Pakistan', 'Spain', 'Iran', 'Italy']
