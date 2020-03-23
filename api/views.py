@@ -32,7 +32,7 @@ def index(request):
         'Islamabad': list(df_local[df_local['Province']=='Islamabad'].groupby(['Date']).sum()['Confirmed_Cum']),
         'Gilgit': list(df_local[df_local['Province']=='Gilgit-Baltistan'].groupby(['Date']).sum()['Confirmed_Cum']),
         'Kashmir': list(df_local[df_local['Province']=='Azad Kashmir'].groupby(['Date']).sum()['Confirmed_Cum']),
-        'Tribal': list(df_local[df_local['Province']=='KP Tribal Districts'].groupby(['Date']).sum()['Confirmed_Cum']),
+        # 'Tribal': list(df_local[df_local['Province']=='KP Tribal Districts'].groupby(['Date']).sum()['Confirmed_Cum']),
         'comparison': df_intl.to_json(orient='columns')
     })
 
@@ -47,6 +47,8 @@ class TenPerDayUserThrottle(UserRateThrottle):
 def summary(request):
     df = pandas.read_csv('SHEETS.csv', header=1)
     df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
+    df.fillna(0, inplace=True)
+    df = df[df['Province'] != 'KP Tribal Districts']
 
     df_total = df.rename(columns={ 'Suspected_Cum': 'Suspected', 'Tested_Cum': 'Tested', 'Confirmed_Cum': 'Confirmed', 'Admitted_Cum': 'Admitted', 'Discharged_Cum': 'Discharged', 'Expired_Cum': 'Expired' })
     df_today = df.rename(columns={ 'Suspected_24': 'Suspected', 'Tested_24': 'Tested', 'Confirmed_24': 'Confirmed', 'Admitted_24': 'Admitted', 'Discharged_24': 'Discharged', 'Expired_24': 'Expired' })
