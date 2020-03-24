@@ -8,15 +8,15 @@ We are using the COVID-19 Daily Sitreps published by the National Institute of H
 You can checkout the code and run the following commands to get started. 
 
     python -m venv env               # Setup virtual environment
+    source env/bin/activate          # Activate virtual environment
     pip install -r requirements.txt  # Install required packages
-    source env/bin/activate			 # Activate virtual environment
 
 Use `.env.example` to create or update values in `.env`. 
 
 Run the management commands to import data from Google Sheets.
 
     python manage.py sheets	     # Import national data
-    python manage.py comparison  # Import international comparison
+    python manage.py comparison      # Import international comparison
 
 Run the development server.
 
