@@ -55,7 +55,7 @@ def summary(request):
 
     return Response({
         'updated': df['Date'].max().strftime('%d-%m-%Y'),
-        'total': dict(df_total.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']]),
-        'today': dict(df_today.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']]),
-        'province_total': dict(pandas.pivot_table(df, values='Confirmed_Cum', index=df['Date'], columns=df['Province'], aggfunc='sum').iloc[-1, :])
+        'total': dict(df_total.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']].astype(int)),
+        'today': dict(df_today.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']].astype(int)),
+        'province_total': dict(pandas.pivot_table(df, values='Confirmed_Cum', index=df['Date'], columns=df['Province'], aggfunc='sum').iloc[-1, :].astype(int))
     })
