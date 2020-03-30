@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view, permission_classes, throttle_cla
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle
 from django.shortcuts import render
-import pandas, json
+from django.conf import settings
+import os, pandas, numpy, json
 
 
 def index(request):
@@ -53,9 +54,26 @@ def summary(request):
     df_total = df.rename(columns={ 'Suspected_Cum': 'Suspected', 'Tested_Cum': 'Tested', 'Confirmed_Cum': 'Confirmed', 'Admitted_Cum': 'Admitted', 'Discharged_Cum': 'Discharged', 'Expired_Cum': 'Expired' })
     df_today = df.rename(columns={ 'Suspected_24': 'Suspected', 'Tested_24': 'Tested', 'Confirmed_24': 'Confirmed', 'Admitted_24': 'Admitted', 'Discharged_24': 'Discharged', 'Expired_24': 'Expired' })
 
-    return Response({
+    output = {
         'updated': df['Date'].max().strftime('%d-%m-%Y'),
         'total': dict(df_total.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']].astype(int)),
         'today': dict(df_today.groupby(['Date']).sum().iloc[-1, :][['Suspected','Tested','Confirmed','Admitted','Discharged','Expired']].astype(int)),
         'province_total': dict(pandas.pivot_table(df, values='Confirmed_Cum', index=df['Date'], columns=df['Province'], aggfunc='sum').iloc[-1, :].astype(int))
-    })
+    }
+
+    with open(os.path.join(settings.STATIC_ROOT, 'summary.json'), 'w') as outfile:
+        json.dump(output, outfile, cls=MyEncoder)
+
+    return Response(output)
+
+
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, numpy.integer):
+            return int(obj)
+        elif isinstance(obj, numpy.floating):
+            return float(obj)
+        elif isinstance(obj, numpy.ndarray):
+            return obj.tolist()
+        else:
+            return super(MyEncoder, self).default(obj)
