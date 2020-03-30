@@ -43,7 +43,7 @@ class TenPerDayUserThrottle(UserRateThrottle):
 
 @api_view()
 @permission_classes([IsAuthenticated])
-@throttle_classes([TenPerDayUserThrottle])
+# @throttle_classes([TenPerDayUserThrottle])
 def summary(request):
     df = pandas.read_csv('SHEETS.csv', header=1)
     df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
