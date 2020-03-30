@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>COVID Pakistan Dashboard</title>
+    <style>
+      [v-cloak] > * { display:none }
+      [v-cloak]::before { content: "Loading…" }
+    </style>
   </head>
   <body class="bg-light">
     
-    <div id="app">
+    <div id="app" v-cloak>
       <main class="container-fluid py-3">
         <nav class="row text-secondary mb-4">
           <div class="col-md-8">
@@ -175,9 +179,9 @@
       var _x = {{ comparison | safe }}
       var _comparison = [
         { label: 'Pakistan', data: Object.values(_x.Pakistan).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Spain', data: Object.values(_x.Spain), backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Iran', data: Object.values(_x.Iran), backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Italy', data: Object.values(_x.Italy), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Spain', data: Object.values(_x.Spain).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Iran', data: Object.values(_x.Iran).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Italy', data: Object.values(_x.Italy).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
       ]
     </script>
     <script>
@@ -187,7 +191,6 @@
         components: { Chart },
         data () {
           return {
-            message: 'Hello Vue!',
             chart: {
               type: 'line',
               data: {
