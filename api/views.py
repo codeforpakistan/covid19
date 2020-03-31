@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, permissions
+from django.core.management import call_command
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, throttle_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.throttling import UserRateThrottle
 from django.shortcuts import render
 from django.conf import settings
@@ -38,14 +39,26 @@ def index(request):
     })
 
 
-class TenPerDayUserThrottle(UserRateThrottle):
-    rate = '1/sec'
+class TenPerDayThrottle(UserRateThrottle):
+    rate = '10/day'
 
 
 @api_view()
 @permission_classes([IsAuthenticated])
-# @throttle_classes([TenPerDayUserThrottle])
 def summary(request):
+    with open(os.path.join(settings.STATIC_ROOT, 'summary.json'), 'r') as infile:
+        output = json.load(infile)
+
+    return Response(data=output)
+
+@api_view()
+@permission_classes([IsAdminUser])
+@throttle_classes([TenPerDayThrottle])
+def compile(request):
+
+    call_command('sheets')
+    call_command('comparison')
+
     df = pandas.read_csv('SHEETS.csv', header=1)
     df['Date'] = pandas.to_datetime(df['Date'], format='%d-%m-%y')
     df.fillna(0, inplace=True)
@@ -62,12 +75,12 @@ def summary(request):
     }
 
     with open(os.path.join(settings.STATIC_ROOT, 'summary.json'), 'w') as outfile:
-        json.dump(output, outfile, cls=MyEncoder)
+        json.dump(output, outfile, cls=IntEncoder)
 
-    return Response(output)
+    return Response(data='JSON Compiled', status=status.HTTP_201_CREATED)
 
 
-class MyEncoder(json.JSONEncoder):
+class IntEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, numpy.integer):
             return int(obj)
@@ -76,4 +89,4 @@ class MyEncoder(json.JSONEncoder):
         elif isinstance(obj, numpy.ndarray):
             return obj.tolist()
         else:
-            return super(MyEncoder, self).default(obj)
+            return super(IntEncoder, self).default(obj)
