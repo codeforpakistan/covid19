@@ -2,8 +2,11 @@ asgiref==3.2.5
 cachetools==4.0.0
 certifi==2019.11.28
 chardet==3.0.4
+coreapi==2.3.3
+coreschema==0.0.4
 Django==3.0.4
 django-environ==0.4.5
+django-pwa==1.0.8
 django-rest-framework==0.1.0
 djangorestframework==3.11.0
 google-api-core==1.16.0
@@ -14,6 +17,9 @@ google-auth-oauthlib==0.4.1
 googleapis-common-protos==1.51.0
 httplib2==0.17.0
 idna==2.9
+itypes==1.1.0
+Jinja2==2.11.1
+MarkupSafe==1.1.1
 numpy==1.18.1
 oauthlib==3.1.0
 pandas==1.0.2

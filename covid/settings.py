@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'api'
+    'api',
+    'pwa'
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,9 @@ USE_TZ = True
 
 STATIC_URL = env('STATIC_URL')
 STATIC_ROOT = os.path.join(BASE_DIR, env('STATIC_ROOT'))
-
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
 
 IDIMS_API = env('IDIMS_API')
 
@@ -143,3 +146,32 @@ CACHES = {
         'TIMEOUT': 3600
     }
 }
+
+PWA_APP_NAME = 'COVID-19 Pakistan Dashboard'
+PWA_APP_DESCRIPTION = "A simple dashboard for monitoring the COVID-19 situation in Pakistan"
+PWA_APP_THEME_COLOR = '#999999'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/icons/android-icon-144x144.png',
+        'sizes': '144x144'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/icons/apple-icon-160x160.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/splash-640x1136.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

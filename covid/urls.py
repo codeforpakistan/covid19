@@ -24,6 +24,7 @@ router = routers.DefaultRouter()
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', views.index),
+    path('', include('pwa.urls')),
     path('api/', include(router.urls)),
     path('api/compile', views.compile),
     path('api/summary', views.summary),
