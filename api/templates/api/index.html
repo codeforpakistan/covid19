@@ -80,7 +80,7 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <div class="card card-body border-0 shadow-sm">
-              <h6 class="card-title">Epidemic Curve (Daily Cases)</h6>
+              <h6 class="card-title">Epidemic Curve (Daily Cases) <a class="small float-right" target="_blank" href="https://www.cdc.gov/training/QuickLearns/epimode/">Learn More</a></a></h6>
               <div class="card-text"><canvas id="epicurve" height="400"></canvas></div>
             </div>
           </div>
@@ -225,6 +225,7 @@
         { label: 'Spain', data: Object.values(_x.Spain).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
         { label: 'Iran', data: Object.values(_x.Iran).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
         { label: 'Italy', data: Object.values(_x.Italy).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'USA', data: Object.values(_x.USA).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
       ]
     </script>
     <script>
@@ -326,7 +327,7 @@
             provinces: ['Balochistan', 'Khyber Pakhtunkhwa','Punjab','Sindh','Islamabad','Gilgit-Baltistan','Azad Kashmir'],
             colors: ['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e','#e6ab02','#a6761d','#666666'],
             percentage: ['#fff5eb','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'],
-            countries: ['Pakistan', 'Spain', 'Iran', 'Italy']
+            countries: ['Pakistan', 'Spain', 'Iran', 'Italy','USA']
           }
         },
         mounted: function () {
@@ -383,6 +384,7 @@
             if (country == 'Spain') return this.colors[1]
             if (country == 'Iran') return this.colors[2]
             if (country == 'Italy') return this.colors[3]
+            if (country == 'USA') return this.colors[5]
           }
         },
         filters: {

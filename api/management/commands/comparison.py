@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
             # The ID and range of a sample spreadsheet.
             SAMPLE_SPREADSHEET_ID = '1ljt1URrDZRqTK0qke2yV3lD24CqrfnemhLKClMBYYrQ'
-            SAMPLE_RANGE_NAME = 'INTL!A:D'
+            SAMPLE_RANGE_NAME = 'INTL!A:E'
 
             """Shows basic usage of the Sheets API.
             Prints values from a sample spreadsheet.
