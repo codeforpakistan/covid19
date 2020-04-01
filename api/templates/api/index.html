@@ -40,37 +40,37 @@
           <div class="col-6 col-md">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Suspected</p>
-              <h1 class="card-title text-info mb-0">[[ data.summary.Suspected_Cum | numberFormat ]]</h1>
+              <h2 class="card-title text-info mb-0">[[ data.summary.Suspected_Cum | numberFormat ]]</h2>
             </div>
           </div>
           <div class="col-6 col-md">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Tested</p>
-              <h1 class="card-title text-primary mb-0">[[ data.summary.Tested_Cum | numberFormat ]]</h1>
+              <h2 class="card-title text-primary mb-0">[[ data.summary.Tested_Cum | numberFormat ]]</h2>
             </div>
           </div>
           <div class="col-6 col-md">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Confirmed</p>
-              <h1 class="card-title text-danger mb-0">[[ data.summary.Confirmed_Cum | numberFormat ]]</h1>
+              <h2 class="card-title text-danger mb-0">[[ data.summary.Confirmed_Cum | numberFormat ]]</h2>
             </div>
           </div>
           <div class="col-6 col-md">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Admitted</p>
-              <h1 class="card-title text-warning mb-0">[[ data.summary.Admitted_Cum | numberFormat ]]</h1>
+              <h2 class="card-title text-warning mb-0">[[ data.summary.Admitted_Cum | numberFormat ]]</h2>
             </div>
           </div>
           <div class="col-6 col-md">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Discharged</p>
-              <h1 class="card-title text-success mb-0">[[ data.summary.Discharged_Cum | numberFormat ]]</h1>
+              <h2 class="card-title text-success mb-0">[[ data.summary.Discharged_Cum | numberFormat ]]</h2>
             </div>
           </div>
           <div class="col-6 col-md">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Expired</p>
-              <h1 class="card-title text-danger mb-0">[[ data.summary.Expired_Cum | numberFormat ]]</h1>
+              <h2 class="card-title text-danger mb-0">[[ data.summary.Expired_Cum | numberFormat ]]</h2>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@
 
         <!-- THIRD ROW -->
         <div class="card card-body border-0 shadow-sm mb-3">
-          <h6 class="card-title">Cases by Provinces and Date</h6>
+          <h6 class="card-title">Confirmed Cases by Provinces</h6>
           <div class="row">
             <div class="col-md-5">
               <svg version="1.1"
@@ -127,9 +127,17 @@
                 <stop  offset="0.9" style="stop-color:#7f2704"/>
               </linearGradient>
               <rect x="610.3" y="700.6" fill="url('#myGradient')" width="320" height="16"/>
-              <text transform="matrix(1 0 0 1 607.2591 734.3337)" class="st2 st3">0</text>
-              <text transform="matrix(1 0 0 1 764.1816 734.333)" class="st2 st3">50</text>
-              <text transform="matrix(1 0 0 1 921.1045 734.3334)" class="st2 st3">100</text>
+              <text transform="matrix(1 0 0 1 607.2591 734.3337)">0</text>
+              <text transform="matrix(1 0 0 1 764.1816 734.333)">50</text>
+              <text transform="matrix(1 0 0 1 921.1045 734.3334)">100</text>
+
+              <text title="BA" transform="matrix(1 0 0 1 280 500)" font-size="36">[[ (chart.data.datasets[0].data.slice(-1)[0] / data.summary.Confirmed_Cum) * 100 | numberFormat(2) ]]%</text>
+              <text title="KP" transform="matrix(1 0 0 1 570 150)" font-size="36">[[ (chart.data.datasets[1].data.slice(-1)[0] / data.summary.Confirmed_Cum) * 100 | numberFormat(2) ]]%</text>
+              <text title="PB" transform="matrix(1 0 0 1 560 380)" font-size="36">[[ (chart.data.datasets[2].data.slice(-1)[0] / data.summary.Confirmed_Cum) * 100 | numberFormat(2) ]]%</text>
+              <text title="SD" transform="matrix(1 0 0 1 370 650)" font-size="36">[[ (chart.data.datasets[3].data.slice(-1)[0] / data.summary.Confirmed_Cum) * 100 | numberFormat(2) ]]%</text>
+              <text title="IS" transform="matrix(1 0 0 1 590 260)" font-size="36">[[ (chart.data.datasets[4].data.slice(-1)[0] / data.summary.Confirmed_Cum) * 100 | numberFormat(2) ]]%</text>
+              <text title="GB" transform="matrix(1 0 0 1 700 100)" font-size="36">[[ (chart.data.datasets[5].data.slice(-1)[0] / data.summary.Confirmed_Cum) * 100 | numberFormat(2) ]]%</text>
+              <text title="AK" transform="matrix(1 0 0 1 690 210)" font-size="36">[[ (chart.data.datasets[6].data.slice(-1)[0] / data.summary.Confirmed_Cum) * 100 | numberFormat(2) ]]%</text>
               </svg>
             </div>
             <div class="col-md-7">
