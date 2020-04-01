@@ -91,7 +91,7 @@ db.sqlite3
 .vscode/
 
 uploads/
-static/
+/static/
 temp/
 
 .ipynb*
