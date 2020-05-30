@@ -223,30 +223,30 @@
       var _latest = "{{ today|safe }}"
       var _dates = {{ dates|safe }}
       var _epicurve = [
-        { label: 'Cases', data: {{ epiDailyCases }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y1' },
-        { label: 'Deaths', data: {{ epiDailyDeaths }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y2' }
+        { label: 'Cases', data: {{ epiDailyCases }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false, yAxisID: 'y1' },
+        { label: 'Deaths', data: {{ epiDailyDeaths }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false, yAxisID: 'y2' }
       ]
       var _cumulative = [
-        { label: 'Cases', data: {{ epiTotalCases }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y3' },
-        { label: 'Deaths', data: {{ epiTotalDeaths }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y4' }
+        { label: 'Cases', data: {{ epiTotalCases }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false, yAxisID: 'y3' },
+        { label: 'Deaths', data: {{ epiTotalDeaths }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false, yAxisID: 'y4' }
       ]
       var _chart = [
-        { label: 'Balochistan', data: {{ Balochistan }}, backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Khyber Pakhtunkhwa', data: {{ Pakhtunkhwa }}, backgroundColor: null, borderColor: null,  fill: false },
-        { label: 'Punjab', data: {{ Punjab }}, backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Sindh', data: {{ Sindh }}, backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Islamabad', data: {{ Islamabad }}, backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Gilgit-Baltistan', data: {{ Gilgit }}, backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Azad Kashmir', data: {{ Kashmir }}, backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Balochistan', data: {{ Balochistan }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false },
+        { label: 'Khyber Pakhtunkhwa', data: {{ Pakhtunkhwa }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0,  fill: false },
+        { label: 'Punjab', data: {{ Punjab }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false },
+        { label: 'Sindh', data: {{ Sindh }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false },
+        { label: 'Islamabad', data: {{ Islamabad }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false },
+        { label: 'Gilgit-Baltistan', data: {{ Gilgit }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false },
+        { label: 'Azad Kashmir', data: {{ Kashmir }}, backgroundColor: null, borderColor: null, borderWidth: 2, pointRadius: 0, fill: false },
         // { label: 'KP Tribal Districts', data: {{ Tribal }}, backgroundColor: null, borderColor: null, fill: false },
       ]
       var _x = {{ comparison | safe }}
       var _comparison = [
-        { label: 'Pakistan', data: Object.values(_x.Pakistan).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Spain', data: Object.values(_x.Spain).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Iran', data: Object.values(_x.Iran).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
-        { label: 'Italy', data: Object.values(_x.Italy).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
-        { label: 'USA', data: Object.values(_x.USA).filter(function(e){return e}), backgroundColor: null, borderColor: null, fill: false },
+        { label: 'Pakistan', data: Object.values(_x.Pakistan).filter(function(e){return e}), backgroundColor: null, borderWidth: 2, pointRadius: 0, borderColor: null, fill: false },
+        { label: 'Spain', data: Object.values(_x.Spain).filter(function(e){return e}), backgroundColor: null, borderWidth: 2, pointRadius: 0, borderColor: null, fill: false },
+        { label: 'Iran', data: Object.values(_x.Iran).filter(function(e){return e}), backgroundColor: null, borderWidth: 2, pointRadius: 0, borderColor: null, fill: false },
+        { label: 'Italy', data: Object.values(_x.Italy).filter(function(e){return e}), backgroundColor: null, borderWidth: 2, pointRadius: 0, borderColor: null, fill: false },
+        { label: 'USA', data: Object.values(_x.USA).filter(function(e){return e}), backgroundColor: null, borderWidth: 2, pointRadius: 0, borderColor: null, fill: false },
       ]
     </script>
     <script>
