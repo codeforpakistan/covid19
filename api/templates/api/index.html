@@ -56,37 +56,37 @@
 
         <!-- FIRST ROW -->
         <div class="row">
-          <div class="col-6 col-md">
+          <div class="col">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Suspected</p>
               <h2 class="card-title text-info mb-0">[[ data.summary.Suspected_Cum | numberFormat ]]</h2>
             </div>
           </div>
-          <div class="col-6 col-md">
+          <div class="col">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Tested</p>
               <h2 class="card-title text-primary mb-0">[[ data.summary.Tested_Cum | numberFormat ]]</h2>
             </div>
           </div>
-          <div class="col-6 col-md">
+          <div class="col">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Confirmed</p>
               <h2 class="card-title text-danger mb-0">[[ data.summary.Confirmed_Cum | numberFormat ]]</h2>
             </div>
           </div>
-          <div class="col-6 col-md">
+          <div class="col">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Admitted</p>
               <h2 class="card-title text-warning mb-0">[[ data.summary.Admitted_Cum | numberFormat ]]</h2>
             </div>
           </div>
-          <div class="col-6 col-md">
+          <div class="col">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Discharged</p>
               <h2 class="card-title text-success mb-0">[[ data.summary.Discharged_Cum | numberFormat ]]</h2>
             </div>
           </div>
-          <div class="col-6 col-md">
+          <div class="col">
             <div class="card card-body border-0 shadow-sm mb-3">
               <p class="card-text mb-0">Expired</p>
               <h2 class="card-title text-danger mb-0">[[ data.summary.Expired_Cum | numberFormat ]]</h2>
@@ -99,7 +99,7 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <div class="card card-body border-0 shadow-sm">
-              <h6 class="card-title">Epidemic Curve (Daily Cases) <a class="small float-right" target="_blank" href="https://www.cdc.gov/training/QuickLearns/epimode/">Learn More</a></a></h6>
+              <h6 class="card-title">Epidemic Curve (Daily Cases)</h6>
               <div class="card-text"><canvas id="epicurve" height="400"></canvas></div>
             </div>
           </div>
@@ -223,10 +223,12 @@
       var _latest = "{{ today|safe }}"
       var _dates = {{ dates|safe }}
       var _epicurve = [
-        { label: 'Pakistan', data: {{ epidaily }}, backgroundColor: null, borderColor: null, fill: false }
+        { label: 'Cases', data: {{ epiDailyCases }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y1' },
+        { label: 'Deaths', data: {{ epiDailyDeaths }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y2' }
       ]
       var _cumulative = [
-        { label: 'Pakistan', data: {{ epitotal }}, backgroundColor: null, borderColor: null, fill: false }
+        { label: 'Cases', data: {{ epiTotalCases }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y3' },
+        { label: 'Deaths', data: {{ epiTotalDeaths }}, backgroundColor: null, borderColor: null, fill: false, yAxisID: 'y4' }
       ]
       var _chart = [
         { label: 'Balochistan', data: {{ Balochistan }}, backgroundColor: null, borderColor: null, fill: false },
@@ -263,12 +265,20 @@
               options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                stacked: false,
                 scales: {
                   yAxes: [{
-                    scaleLabel: {
-                      display: true,
-                      labelString: 'Number of confirmed cases',
-                    }
+                    type: 'linear',
+                    display: true,
+                    labelString: 'Number of confirmed cases',
+                    position: 'left',
+                    id: 'y1',
+                  }, {
+                    type: 'linear',
+                    display: true,
+                    labelString: 'Number of confirmed deaths',
+                    position: 'right',
+                    id: 'y2',
                   }]
                 }
               }
@@ -284,10 +294,17 @@
                 maintainAspectRatio: false,
                 scales: {
                   yAxes: [{
-                    scaleLabel: {
-                      display: true,
-                      labelString: 'Number of confirmed cases',
-                    }
+                    type: 'linear',
+                    display: true,
+                    labelString: 'Number of confirmed cases',
+                    position: 'left',
+                    id: 'y3',
+                  }, {
+                    type: 'linear',
+                    display: true,
+                    labelString: 'Number of confirmed deaths',
+                    position: 'right',
+                    id: 'y4',
                   }]
                 }
               }
@@ -363,8 +380,14 @@
           this.epicurve.data.datasets[0].backgroundColor = this.country_color('Pakistan')
           this.epicurve.data.datasets[0].borderColor = this.country_color('Pakistan')
 
+          this.epicurve.data.datasets[1].backgroundColor = this.country_color('Italy')
+          this.epicurve.data.datasets[1].borderColor = this.country_color('Italy')
+
           this.cumulative.data.datasets[0].backgroundColor = this.country_color('Pakistan')
           this.cumulative.data.datasets[0].borderColor = this.country_color('Pakistan')
+
+          this.cumulative.data.datasets[1].backgroundColor = this.country_color('Italy')
+          this.cumulative.data.datasets[1].borderColor = this.country_color('Italy')
 
           var ctx = document.getElementById('epicurve').getContext('2d');
           var myChart = new Chart(ctx, this.epicurve);

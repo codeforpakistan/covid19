@@ -24,8 +24,13 @@ def index(request):
     
     return render(request, 'api/index.html', {
         'summary': dict(df_local.groupby(['Date']).sum().iloc[-1, :][['Suspected_Cum','Tested_Cum','Confirmed_Cum','Admitted_Cum','Discharged_Cum','Expired_Cum']]),
-        'epidaily': list(df_local.groupby('Date').sum()['Confirmed_24']),
-        'epitotal': list(df_local.groupby('Date').sum()['Confirmed_Cum']),
+
+        'epiDailyCases': list(df_local.groupby('Date').sum()['Confirmed_24']),
+        'epiDailyDeaths': list(df_local.groupby('Date').sum()['Expired_24']),
+        
+        'epiTotalCases': list(df_local.groupby('Date').sum()['Confirmed_Cum']),
+        'epiTotalDeaths': list(df_local.groupby('Date').sum()['Expired_Cum']),
+        
         'table': df_table.to_json(orient='split'),
         'today': df_local['Date'].max().strftime('%d-%m-%Y'),
         'dates': list(df_local['Date'].sort_values().dt.strftime('%d-%m-%Y').unique()),
