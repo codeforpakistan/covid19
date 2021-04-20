@@ -1,6 +1,11 @@
 # COVID-19 Dashboard
 This is a simple Django application that loads some datasets from Google Sheets and shows some basic analytics.
 
+
+<img width="1122" alt="Screen Shot 2021-04-20 at 1 36 26 PM" src="https://user-images.githubusercontent.com/743962/115365544-e9f62880-a1dd-11eb-8401-a1cb914b2eb9.png">
+
+
+
 ### Data Source
 We are using the COVID-19 Daily Sitreps published by the National Institute of Health, and compiling them into a [Google Sheets](https://docs.google.com/spreadsheets/d/1ljt1URrDZRqTK0qke2yV3lD24CqrfnemhLKClMBYYrQ/) document. Please send us a request if you want access to the document. 
 
